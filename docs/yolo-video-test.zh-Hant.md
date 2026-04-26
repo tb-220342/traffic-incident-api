@@ -2,7 +2,7 @@
 
 語言: [English](yolo-video-test.md) | [日本語](yolo-video-test.ja.md) | [繁體中文](yolo-video-test.zh-Hant.md)
 
-回到 [Document Index](document-index.zh-Hant.md)
+回到 [文檔索引](document-index.zh-Hant.md)
 
 本機 YOLO 影片測試資料夾:
 
@@ -10,10 +10,10 @@
 <DATA_ROOT>\yolovideotest
 ```
 
-`<DATA_ROOT>` 是 repository 外部的 ML data directory。未設定 `TRAFFIC_DATASETS_ROOT` 時，預設是 `../traffic-incident-data`。
+`<DATA_ROOT>` 是 repository 外部的 ML 資料目錄。未設定 `TRAFFIC_DATASETS_ROOT` 時，預設是 `../traffic-incident-data`。
 
 > [!NOTE]
-> public repository 保留 video test workflow 與 demo DB 內已驗證 API rows，但不再散布 dataset 派生 MP4 或 YOLO weight。
+> public repository 保留影片測試流程與 demo DB 內已驗證 API rows，但不再散布 dataset 派生 MP4 或 YOLO weight。
 
 public GitHub release 不 commit dataset 派生 MP4。若要執行 YOLO demo，請把檔案保留或重新生成在 `<DATA_ROOT>\yolovideotest`。
 
@@ -102,7 +102,7 @@ Invoke-RestMethod 'http://127.0.0.1:8000/events?camera_id=CAM-YOLO-VIDEO-RDD&sor
   ConvertTo-Json -Depth 12
 ```
 
-packaged demo database 中已驗證的 record:
+同梱 demo database 中已驗證的 record:
 
 - `CAM-YOLO-VIDEO-RDD:DEBRIS:20260426T141118178311:a44c447c`
 - `CAM-YOLO-VIDEO-RDD:DEBRIS:20260426T141119377223:8545637c`

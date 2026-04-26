@@ -2,26 +2,26 @@
 
 語言: [English](deployment.md) | [日本語](deployment.ja.md) | [繁體中文](deployment.zh-Hant.md)
 
-回到 [Document Index](document-index.zh-Hant.md)
+回到 [文檔索引](document-index.zh-Hant.md)
 
-這個專案是面試課題用的 demo service。給面試官重現時，推薦使用本機 Docker Compose。
+這個專案是面試課題用的示範服務。給面試官重現時，推薦使用本機 Docker Compose。
 
-表記:
+符號說明:
 
-- `<repo-root>` 代表 reviewer clone 這個 repository 的目錄。
-- `<DATA_ROOT>` 代表 repository 外部的 ML data directory。預設是 `../traffic-incident-data`，可用 `TRAFFIC_DATASETS_ROOT` 更改。
+- `<repo-root>` 代表審查者 clone 這個 repository 的目錄。
+- `<DATA_ROOT>` 代表 repository 外部的 ML 資料目錄。預設是 `../traffic-incident-data`，可用 `TRAFFIC_DATASETS_ROOT` 更改。
 
-## At A Glance
+## 概覽
 
-| Item | Value |
+| 項目 | 值 |
 | --- | --- |
 | 推薦執行方式 | Docker Compose |
-| API docs | `http://127.0.0.1:8000/docs` |
-| Dashboard | `http://127.0.0.1:8000/ui/` |
-| Runtime DB | `<repo-root>/data/incidents.db` |
-| Packaged demo DB | `demo-data/incidents-demo.db` |
+| API 文件 | `http://127.0.0.1:8000/docs` |
+| 儀表板 | `http://127.0.0.1:8000/ui/` |
+| 執行時 DB | `<repo-root>/data/incidents.db` |
+| 同梱 demo DB | `demo-data/incidents-demo.db` |
 
-## 推薦 Demo 部署方式
+## 推薦示範部署方式
 
 ```powershell
 cd <repo-root>
@@ -31,14 +31,14 @@ docker compose ps
 
 開啟:
 
-- API health: `http://127.0.0.1:8000/health`
-- Swagger API docs: `http://127.0.0.1:8000/docs`
-- Dashboard UI: `http://127.0.0.1:8000/ui/`
+- API 健康檢查: `http://127.0.0.1:8000/health`
+- Swagger API 文件: `http://127.0.0.1:8000/docs`
+- 儀表板 UI: `http://127.0.0.1:8000/ui/`
 
 Docker stack 會啟動:
 
 - `api`: FastAPI application，port `8000`
-- `seed`: optional fake-event generator，會把 demo event 送進 API
+- `seed`: 可選的 fake-event generator，會把 demo event 送進 API
 
 如果要手動測 API 或 YOLO，建議先停止 seed，這樣比較容易找到新寫入的測試資料。
 
@@ -71,7 +71,7 @@ Docker Compose 會把 `./data` mount 進 container，所以 SQLite 會保存在:
 <repo-root>\data\incidents.db
 ```
 
-repo 也包含展示用 demo database snapshot:
+repository 也包含展示用 demo database snapshot:
 
 ```text
 demo-data/incidents-demo.db
@@ -79,9 +79,9 @@ demo-data/incidents-demo.db
 
 這個 snapshot 包含 seed/demo records，以及 `CAM-YOLO-VIDEO-RDD` 由 YOLO 真正寫入的 2 筆 `DEBRIS` event。
 
-## YOLO 寫入 API / DB Demo
+## YOLO 寫入 API / DB 示範
 
-public GitHub release 不包含 dataset 派生的 MP4 clip、YOLO snapshot、或訓練完成的 `.pt` weight。若要執行這個 demo，請使用本機 `<DATA_ROOT>` 底下的 artifact，或用 `yolo/` 內的 script 重新生成。packaged demo database 仍保留 2 筆已驗證的 YOLO 生成 record，因此即使不再散布原始媒體或權重，面試官也能確認 API/UI 行為。
+public GitHub release 不包含 dataset 派生的 MP4 clip、YOLO snapshot、或訓練完成的 `.pt` weight。若要執行這個示範，請使用本機 `<DATA_ROOT>` 底下的 artifact，或用 `yolo/` 內的 script 重新生成。同梱 demo database 仍保留 2 筆已驗證的 YOLO 生成 record，因此即使不再散布原始媒體或權重，面試官也能確認 API/UI 行為。
 
 啟動 API 並停止 seed:
 

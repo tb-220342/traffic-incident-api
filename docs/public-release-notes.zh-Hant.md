@@ -2,12 +2,12 @@
 
 語言: [English](public-release-notes.md) | [日本語](public-release-notes.ja.md) | [繁體中文](public-release-notes.zh-Hant.md)
 
-回到 [Document Index](document-index.zh-Hant.md)
+回到 [文檔索引](document-index.zh-Hant.md)
 
-這個 repo 會公開在 GitHub，因此不包含資料集派生的媒體檔或訓練權重。
+這個 repository 會公開在 GitHub，因此不包含資料集派生的媒體檔或訓練權重。
 
 > [!CAUTION]
-> 這是面試提交用的保守 compliance note，不是法律意見；它用來說明為何不再散布 dataset 派生 artifact。
+> 這是面試提交用的保守合規說明，不是法律意見；它用來說明為何不再散布 dataset 派生 artifact。
 
 ## 授權確認摘要
 
@@ -23,7 +23,7 @@
 - Creative Commons BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
 - Creative Commons BY 4.0: https://creativecommons.org/licenses/by/4.0/
 
-## Public Repo 會包含
+## 公開 Repository 會包含的內容
 
 - API、Dashboard、seed script、YOLO pipeline 原始碼。
 - dataset download、prepare、training、inference scripts。
@@ -31,7 +31,7 @@
 - `demo-data/` 內的 demo SQLite database snapshot。
 - AI conversation logs 與 project documentation。
 
-## Public Repo 不會包含
+## 公開 Repository 不會包含的內容
 
 - raw / prepared training images。
 - 由 dataset image 生成的 YOLO demo MP4。

@@ -2,7 +2,7 @@
 
 語言: [English](implementation-vs-requirements-v2.en.md) | [日本語](implementation-vs-requirements-v2.ja.md) | [繁體中文](implementation-vs-requirements-v2.md)
 
-回到 [Document Index](document-index.zh-Hant.md)
+回到 [文檔索引](document-index.zh-Hant.md)
 
 最後更新：2026-04-26（Asia/Tokyo）
 
@@ -58,9 +58,9 @@
 | 項目 | 狀態 | 說明 / 證據 |
 | --- | --- | --- |
 | `infer_video.py` 轉事件並送 API | 完成 | 2026-04-26 已用 `rdd_damage_short.mp4` 驗證，`CAM-YOLO-VIDEO-RDD` 寫入 2 筆 `DEBRIS` event |
-| 訓練權重本機保留 | 完成 | `MIO`、`RDD2022`、`TRANCOS` 權重保留在 `<DATA_ROOT>\\runs`；public repo 不包含 `.pt` weight，`model-artifacts/` 只保留 training summary |
+| 訓練權重本機保留 | 完成 | `MIO`、`RDD2022`、`TRANCOS` 權重保留在 `<DATA_ROOT>\\runs`；public repo 不包含 `.pt` weight，`model-artifacts/` 只保留訓練摘要 |
 | 訓練資料 / 快取放在 repo 外 | 完成 | 預設使用 `../traffic-incident-data`，也可用 `TRAFFIC_DATASETS_ROOT` 指定任意磁碟或 workspace |
-| 端到端影片驗證 | 可 demo / 待人工看品質 | 短版測試影片與 YOLO box 輸出保留在 `<DATA_ROOT>\\yolovideotest`；public repo 排除 dataset 派生 MP4/snapshot，但 demo DB 保留已驗證的 API event |
+| 端到端影片驗證 | 可示範 / 待人工看品質 | 短版測試影片與 YOLO box 輸出保留在 `<DATA_ROOT>\\yolovideotest`；public repo 排除 dataset 派生 MP4/snapshot，但 demo DB 保留已驗證的 API event |
 
 ## 目前仍建議你人工確認的點
 

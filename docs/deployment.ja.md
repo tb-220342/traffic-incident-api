@@ -2,26 +2,26 @@
 
 言語: [English](deployment.md) | [日本語](deployment.ja.md) | [繁體中文](deployment.zh-Hant.md)
 
-[Document Index](document-index.ja.md) に戻る
+[ドキュメント一覧](document-index.ja.md) に戻る
 
-このプロジェクトは面接課題の demo service として作っています。review 用の推奨実行方法は、ローカル PC 上の Docker Compose です。
+このプロジェクトは面接課題のデモサービスとして作っています。レビュー用の推奨実行方法は、ローカル PC 上の Docker Compose です。
 
 表記:
 
-- `<repo-root>` は reviewer がこの repository を clone した directory です。
-- `<DATA_ROOT>` は repository 外の ML data directory です。default は `../traffic-incident-data` で、`TRAFFIC_DATASETS_ROOT` で変更できます。
+- `<repo-root>` はレビュー担当者がこの repository を clone したディレクトリです。
+- `<DATA_ROOT>` は repository 外の ML データディレクトリです。デフォルトは `../traffic-incident-data` で、`TRAFFIC_DATASETS_ROOT` で変更できます。
 
-## At A Glance
+## 概要
 
-| Item | Value |
+| 項目 | 値 |
 | --- | --- |
 | 推奨実行方法 | Docker Compose |
-| API docs | `http://127.0.0.1:8000/docs` |
-| Dashboard | `http://127.0.0.1:8000/ui/` |
-| Runtime DB | `<repo-root>/data/incidents.db` |
-| Packaged demo DB | `demo-data/incidents-demo.db` |
+| API ドキュメント | `http://127.0.0.1:8000/docs` |
+| ダッシュボード | `http://127.0.0.1:8000/ui/` |
+| 実行時 DB | `<repo-root>/data/incidents.db` |
+| 同梱 demo DB | `demo-data/incidents-demo.db` |
 
-## 推奨 demo deployment
+## 推奨デモ実行方法
 
 ```powershell
 cd <repo-root>
@@ -31,14 +31,14 @@ docker compose ps
 
 開く URL:
 
-- API health: `http://127.0.0.1:8000/health`
-- Swagger API docs: `http://127.0.0.1:8000/docs`
-- Dashboard UI: `http://127.0.0.1:8000/ui/`
+- API ヘルスチェック: `http://127.0.0.1:8000/health`
+- Swagger API ドキュメント: `http://127.0.0.1:8000/docs`
+- ダッシュボード UI: `http://127.0.0.1:8000/ui/`
 
-Docker stack で起動する service:
+Docker stack で起動するサービス:
 
-- `api`: port `8000` の FastAPI application
-- `seed`: demo event を API に送る optional fake-event generator
+- `api`: port `8000` の FastAPI アプリケーション
+- `seed`: demo event を API に送る任意の fake-event generator
 
 手動 API 確認や YOLO demo を行う場合は、seed を止めると新しい record を見つけやすくなります。
 
@@ -63,7 +63,7 @@ python -m venv .venv
 
 開発には便利ですが、面接官が再現する場合は Docker Compose の方が簡単です。
 
-## database persistence
+## データベース永続化
 
 Docker Compose は `./data` を container に mount するため、SQLite は以下に保存されます。
 
@@ -71,7 +71,7 @@ Docker Compose は `./data` を container に mount するため、SQLite は以
 <repo-root>\data\incidents.db
 ```
 
-提出確認用の demo database snapshot も repo に含めています。
+提出確認用の demo database snapshot も repository に含めています。
 
 ```text
 demo-data/incidents-demo.db
@@ -79,9 +79,9 @@ demo-data/incidents-demo.db
 
 この snapshot には seed/demo record と、`CAM-YOLO-VIDEO-RDD` から実際に YOLO が保存した `DEBRIS` event 2 件が含まれます。
 
-## YOLO から API / DB へ書き込む demo
+## YOLO から API / DB へ書き込むデモ
 
-public GitHub release では、dataset 由来の MP4 clip、YOLO snapshot、学習済み `.pt` weight は含めません。この demo を実行する場合は、ローカルの `<DATA_ROOT>` 配下にある artifact を使うか、`yolo/` 配下の script で再生成します。packaged demo database には確認済みの YOLO 由来 record が 2 件残っているため、元 media や weight を再配布しなくても API/UI の挙動は確認できます。
+public GitHub release では、dataset 由来の MP4 clip、YOLO snapshot、学習済み `.pt` weight は含めません。このデモを実行する場合は、ローカルの `<DATA_ROOT>` 配下にある artifact を使うか、`yolo/` 配下の script で再生成します。同梱 demo database には確認済みの YOLO 由来 record が 2 件残っているため、元 media や weight を再配布しなくても API/UI の挙動は確認できます。
 
 API を起動し、seed を止めます。
 
@@ -112,7 +112,7 @@ Invoke-RestMethod 'http://127.0.0.1:8000/events?camera_id=CAM-YOLO-VIDEO-RDD&sor
   ConvertTo-Json -Depth 12
 ```
 
-## 提出前 test
+## 提出前テスト
 
 ```powershell
 .\.venv\Scripts\pytest -q

@@ -5,17 +5,17 @@
 這份文件是提交文檔的導航頁。README 是入口，這裡是整個 repository 的路標。
 
 > [!TIP]
-> 快速 review 建議順序：README、Docker Compose、`/docs`、`/ui/`、完成度清單、公開發布說明。
+> 快速審查建議順序：README、Docker Compose、`/docs`、`/ui/`、完成度清單、公開發布說明。
 
-## Fast Review Route
+## 快速審查路線
 
-| Step | Read / Open | 用途 |
+| 步驟 | 閱讀 / 開啟 | 用途 |
 | --- | --- | --- |
 | 1 | [README.zh-Hant.md](../README.zh-Hant.md) | 專案概要與 quick start |
-| 2 | [Deployment guide](deployment.zh-Hant.md) | 可重現部署步驟 |
-| 3 | [Implementation status](implementation-vs-requirements-v2.md) | 逐項要件完成度 |
-| 4 | [Public release notes](public-release-notes.zh-Hant.md) | dataset / weight 公開策略 |
-| 5 | [AI workflow log](ai-log.zh-Hant.md) | AI 使用紀錄 |
+| 2 | [部署 / 執行指南](deployment.zh-Hant.md) | 可重現部署步驟 |
+| 3 | [實作完成度](implementation-vs-requirements-v2.md) | 逐項要件完成度 |
+| 4 | [公開發布說明](public-release-notes.zh-Hant.md) | 資料集 / weight 公開策略 |
+| 5 | [AI 使用紀錄](ai-log.zh-Hant.md) | AI 使用揭露 |
 
 ## 先看這裡
 
@@ -23,9 +23,9 @@
 - `README.ja.md`: 日文 README。
 - `README.zh-Hant.md`: 繁體中文 README。
 
-## 提交 / Review 用文檔
+## 提交 / 審查用文檔
 
-| Document | 用途 |
+| 文檔 | 用途 |
 | --- | --- |
 | [deployment.md](deployment.md) | 英文部署 / 執行指南 |
 | [deployment.ja.md](deployment.ja.md) | 日文部署 / 執行指南 |
@@ -34,17 +34,17 @@
 | [requirements-spec.ja.md](requirements-spec.ja.md) | 日文要件定義書 |
 | [requirements-spec.zh-Hant.md](requirements-spec.zh-Hant.md) | 繁體中文要件定義書 |
 | [requirements_spec.md.pdf](requirements_spec.md.pdf) | 要件定義書原始 PDF |
-| [implementation-vs-requirements-v2.en.md](implementation-vs-requirements-v2.en.md) | 英文完成度 checklist |
-| [implementation-vs-requirements-v2.ja.md](implementation-vs-requirements-v2.ja.md) | 日文完成度 checklist |
-| [implementation-vs-requirements-v2.md](implementation-vs-requirements-v2.md) | 繁體中文完成度 checklist |
+| [implementation-vs-requirements-v2.en.md](implementation-vs-requirements-v2.en.md) | 英文完成度清單 |
+| [implementation-vs-requirements-v2.ja.md](implementation-vs-requirements-v2.ja.md) | 日文完成度清單 |
+| [implementation-vs-requirements-v2.md](implementation-vs-requirements-v2.md) | 繁體中文完成度清單 |
 
 ## AI 使用紀錄
 
-| Document | 用途 |
+| 文檔 | 用途 |
 | --- | --- |
-| [ai-log.md](ai-log.md) | 英文 AI workflow summary |
-| [ai-log.ja.md](ai-log.ja.md) | 日文 AI workflow summary |
-| [ai-log.zh-Hant.md](ai-log.zh-Hant.md) | 繁體中文 AI workflow summary |
+| [ai-log.md](ai-log.md) | 英文 AI 使用概要 |
+| [ai-log.ja.md](ai-log.ja.md) | 日文 AI 使用概要 |
+| [ai-log.zh-Hant.md](ai-log.zh-Hant.md) | 繁體中文 AI 使用概要 |
 | [ai-conversation-source.en.md](ai-conversation-source.en.md) | Claude / Gemini 對話來源英文翻譯 |
 | [ai-conversation-source.ja.md](ai-conversation-source.ja.md) | Claude / Gemini 對話來源日文翻譯 |
 | [ai-conversation-source.zh-Hant.md](ai-conversation-source.zh-Hant.md) | Claude / Gemini 對話來源繁體中文翻譯 |
@@ -53,17 +53,17 @@
 
 ## YOLO / 資料證據
 
-| Document | 用途 |
+| 文檔 | 用途 |
 | --- | --- |
-| [yolo-video-test.md](yolo-video-test.md) | YOLO 影片測試、dry-run 指令、API 寫入 demo |
+| [yolo-video-test.md](yolo-video-test.md) | YOLO 影片測試、dry-run 指令、API 寫入示範 |
 | [yolo-video-test.ja.md](yolo-video-test.ja.md) | 日文 YOLO 影片測試說明 |
 | [yolo-video-test.zh-Hant.md](yolo-video-test.zh-Hant.md) | 繁體中文 YOLO 影片測試說明 |
-| [submission-assets.md](submission-assets.md) | 提交資產、排除資產、資料來源、demo DB source |
+| [submission-assets.md](submission-assets.md) | 提交素材、排除素材、資料來源、demo DB 來源 |
 | [submission-assets.ja.md](submission-assets.ja.md) | 日文資產 / 來源說明 |
 | [submission-assets.zh-Hant.md](submission-assets.zh-Hant.md) | 繁體中文資產 / 來源說明 |
-| [public-release-notes.md](public-release-notes.md) | public GitHub release policy |
-| [public-release-notes.ja.md](public-release-notes.ja.md) | 日文 public release notes |
-| [public-release-notes.zh-Hant.md](public-release-notes.zh-Hant.md) | 繁體中文 public release notes |
+| [public-release-notes.md](public-release-notes.md) | public GitHub release 方針 |
+| [public-release-notes.ja.md](public-release-notes.ja.md) | 日文公開發布說明 |
+| [public-release-notes.zh-Hant.md](public-release-notes.zh-Hant.md) | 繁體中文公開發布說明 |
 
 ## 畫面證據
 

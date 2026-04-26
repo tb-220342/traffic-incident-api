@@ -12,46 +12,46 @@
 交通インシデント監視プラットフォームのバックエンド課題実装です。AI 動画解析から送られる incident を受信し、SQLite に保存し、検索可能な REST API と SSE によるリアルタイム Dashboard 更新を提供します。
 
 > [!NOTE]
-> public release を意識し、raw dataset、dataset 由来 MP4、snapshot、trained `.pt` weight、local `.env`、個人端末 path は repository に含めていません。
+> 公開リポジトリとして安全に共有できるよう、生データセット、データセット由来 MP4、スナップショット、学習済み `.pt` weight、ローカル `.env`、個人端末固有の path は repository に含めていません。
 
-## Reviewer Quick Path
+## レビュー用クイックパス
 
-| 目的 | Link / Command |
+| 目的 | リンク / コマンド |
 | --- | --- |
-| Demo 起動 | `docker compose up -d --build` |
-| API docs | `http://127.0.0.1:8000/docs` |
-| Dashboard | `http://127.0.0.1:8000/ui/` |
-| 実装完成度 | [Implementation vs Requirements](docs/implementation-vs-requirements-v2.ja.md) |
-| 実行手順 | [Deployment](docs/deployment.ja.md) |
-| 全文書一覧 | [Document Index](docs/document-index.ja.md) |
+| デモ起動 | `docker compose up -d --build` |
+| API ドキュメント | `http://127.0.0.1:8000/docs` |
+| ダッシュボード | `http://127.0.0.1:8000/ui/` |
+| 実装完成度 | [実装状況 vs 要件](docs/implementation-vs-requirements-v2.ja.md) |
+| 実行手順 | [デプロイ / 実行ガイド](docs/deployment.ja.md) |
+| 全文書一覧 | [ドキュメント一覧](docs/document-index.ja.md) |
 
-## Document Hub
+## ドキュメントハブ
 
-| Document | English | Japanese | Chinese |
+| 文書 | 英語 | 日本語 | 繁體中文 |
 | --- | --- | --- | --- |
-| Document index | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
-| Deployment guide | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
-| Implementation status | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
-| Requirements specification | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
-| AI workflow log | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |
-| AI conversation source | [EN](docs/ai-conversation-source.en.md) | [JA](docs/ai-conversation-source.ja.md) | [ZH](docs/ai-conversation-source.zh-Hant.md) |
-| YOLO video test | [EN](docs/yolo-video-test.md) | [JA](docs/yolo-video-test.ja.md) | [ZH](docs/yolo-video-test.zh-Hant.md) |
-| Assets and sources | [EN](docs/submission-assets.md) | [JA](docs/submission-assets.ja.md) | [ZH](docs/submission-assets.zh-Hant.md) |
-| Public release notes | [EN](docs/public-release-notes.md) | [JA](docs/public-release-notes.ja.md) | [ZH](docs/public-release-notes.zh-Hant.md) |
+| ドキュメント一覧 | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
+| デプロイ / 実行ガイド | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
+| 実装状況 | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
+| 要件定義書 | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
+| AI 利用ログ | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |
+| AI 対話ソース | [EN](docs/ai-conversation-source.en.md) | [JA](docs/ai-conversation-source.ja.md) | [ZH](docs/ai-conversation-source.zh-Hant.md) |
+| YOLO 動画テスト | [EN](docs/yolo-video-test.md) | [JA](docs/yolo-video-test.ja.md) | [ZH](docs/yolo-video-test.zh-Hant.md) |
+| 提出アセットと出典 | [EN](docs/submission-assets.md) | [JA](docs/submission-assets.ja.md) | [ZH](docs/submission-assets.zh-Hant.md) |
+| 公開リリースノート | [EN](docs/public-release-notes.md) | [JA](docs/public-release-notes.ja.md) | [ZH](docs/public-release-notes.zh-Hant.md) |
 
-Original sources: [requirements PDF](docs/requirements_spec.md.pdf), [AI conversation PDF](docs/Claude_geminiconversation.md.pdf), [raw extracted AI conversation](docs/ai-conversation-source.md).
+原資料: [要件 PDF](docs/requirements_spec.md.pdf)、[AI 対話 PDF](docs/Claude_geminiconversation.md.pdf)、[AI 対話の raw 抽出 Markdown](docs/ai-conversation-source.md)。
 
 ## 含まれるもの
 
-| Area | Highlights |
+| 領域 | 内容 |
 | --- | --- |
-| API | FastAPI、Pydantic validation、`source_event_id` 冪等受信、list/detail/status endpoints |
-| Realtime | `incident.created` / `incident.status_updated` を SSE 配信 |
-| Persistence | SQLAlchemy + SQLite、Docker volume persistence |
-| Dashboard | Vanilla JS、EN/JA/ZH、filter guidance、pagination、tooltip、戻せる status 操作 |
-| Demo Ops | Docker Compose、seed script、Swagger UI、packaged demo DB |
-| YOLO Extension | download / prepare / train / infer / API post の pipeline |
-| Evidence | tests、screenshots、AI logs、requirements comparison、public-release notes |
+| API | FastAPI、Pydantic 検証、`source_event_id` による冪等受信、一覧 / 詳細 / ステータス API |
+| リアルタイム | `incident.created` / `incident.status_updated` を SSE 配信 |
+| 永続化 | SQLAlchemy + SQLite、Docker volume による保存 |
+| ダッシュボード | Vanilla JS、EN/JA/ZH、フィルター説明、ページング、tooltip、戻せるステータス操作 |
+| デモ運用 | Docker Compose、seed script、Swagger UI、同梱 demo DB |
+| YOLO 拡張 | download / prepare / train / infer / API post の pipeline |
+| 証跡 | tests、screenshots、AI logs、要件比較、公開リリースノート |
 
 ## 技術選定
 
@@ -92,8 +92,8 @@ python -m venv .venv
 
 開く場所:
 
-- API docs: `http://localhost:8000/docs`
-- Dashboard: `http://localhost:8000/ui/`
+- API ドキュメント: `http://localhost:8000/docs`
+- ダッシュボード: `http://localhost:8000/ui/`
 
 デモイベントを送る:
 
@@ -158,7 +158,7 @@ public GitHub release では、dataset 由来の MP4、snapshot、trained `.pt` 
 .\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\<run>\weights\best.pt --source <path-to-road-video>.mp4
 ```
 
-提出用 demo を最短で確認する場合:
+提出用デモを最短で確認する場合:
 
 ```powershell
 docker compose up -d --build

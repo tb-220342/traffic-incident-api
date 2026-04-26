@@ -40,11 +40,11 @@
 | F-04 | `GET /events/stream` | SSE 長連線。每次 `POST /events` 都即時推送到所有 Dashboard，直接回應 "Speed matters"。 |
 | F-05 | `PATCH /events/{id}/status` | 更新狀態流程：`NEW -> ACKNOWLEDGED -> DISPATCHED -> RESOLVED`。更新後也要透過 SSE broadcast，讓其他 operator 畫面即時同步。 |
 | F-06 | Docker Compose | 用一條 `docker compose up` 啟動整套環境。 |
-| F-07 | Seed Script | `python scripts/seed.py` 持續 POST random events。 |
-| F-08 | Dashboard UI | 靜態 HTML + vanilla JavaScript。透過 SSE 即時更新。 |
+| F-07 | Seed 腳本 | `python scripts/seed.py` 持續 POST random events。 |
+| F-08 | 儀表板 UI | 靜態 HTML + vanilla JavaScript。透過 SSE 即時更新。 |
 | F-09 | YOLO 整合 | 使用 YOLOv8 解析影片，並把偵測結果自動送到 `POST /events`。這是自選加分項。 |
 
-## 03 API Endpoint 規格
+## 03 API 端點規格
 
 | Method | Path | 用途 | Status |
 | --- | --- | --- | --- |
@@ -198,7 +198,7 @@ Minimum demo:
 2. 新增包含 API service 與 persistent SQLite volume 的 `docker-compose.yml`。
 3. 新增 seed script，每 2-5 秒以日本高速道路附近座標 random 生成 3 種 event。
 
-### Phase 4 - Dashboard UI，Day 5
+### 階段 4 - 儀表板 UI，第 5 天
 
 1. 建立 static HTML dashboard，包含 `severity`、`event_type`、`status` filters。
 2. event card 顯示 `detected_at`、`severity`、location、description。

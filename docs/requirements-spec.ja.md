@@ -40,11 +40,11 @@
 | F-04 | `GET /events/stream` | SSE の長期接続。`POST /events` のたびに全 Dashboard へ即時配信し、"Speed matters" に直接答える。 |
 | F-05 | `PATCH /events/{id}/status` | `NEW -> ACKNOWLEDGED -> DISPATCHED -> RESOLVED` の status 更新。更新後も SSE broadcast を発火し、他オペレーターの画面を同期する。 |
 | F-06 | Docker Compose | `docker compose up` 一つで環境全体を起動する。 |
-| F-07 | Seed Script | `python scripts/seed.py` で random event を継続 POST する。 |
-| F-08 | Dashboard UI | 静的 HTML + vanilla JavaScript。SSE でリアルタイム更新する。 |
+| F-07 | シードスクリプト | `python scripts/seed.py` で random event を継続 POST する。 |
+| F-08 | ダッシュボード UI | 静的 HTML + vanilla JavaScript。SSE でリアルタイム更新する。 |
 | F-09 | YOLO 連携 | YOLOv8 で動画解析し、検出結果を `POST /events` に自動送信する。自選加点要素。 |
 
-## 03 API Endpoint 仕様
+## 03 API エンドポイント仕様
 
 | Method | Path | 用途 | Status |
 | --- | --- | --- | --- |
@@ -198,7 +198,7 @@ Minimum demo:
 2. API service と persistent SQLite volume を持つ `docker-compose.yml` を追加する。
 3. 日本の高速道路付近の座標を使い、3 種類の event を 2-5 秒ごとに random 生成する seed script を追加する。
 
-### Phase 4 - Dashboard UI, Day 5
+### フェーズ 4 - ダッシュボード UI、5 日目
 
 1. `severity`、`event_type`、`status` filter を持つ static HTML dashboard を作る。
 2. `detected_at`、`severity`、location、description を event card に表示する。

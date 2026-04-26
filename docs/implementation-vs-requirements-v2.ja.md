@@ -2,7 +2,7 @@
 
 言語: [English](implementation-vs-requirements-v2.en.md) | [日本語](implementation-vs-requirements-v2.ja.md) | [繁體中文](implementation-vs-requirements-v2.md)
 
-[Document Index](document-index.ja.md) に戻る
+[ドキュメント一覧](document-index.ja.md) に戻る
 
 最終更新: 2026-04-26 (Asia/Tokyo)
 
@@ -58,9 +58,9 @@
 | 項目 | 状態 | 説明 |
 | --- | --- | --- |
 | `infer_video.py` から API 送信 | 完了 | 2026-04-26 に `rdd_damage_short.mp4` で確認済み。`CAM-YOLO-VIDEO-RDD` から `DEBRIS` event が 2 件保存された |
-| 学習済み weight の local 保持 | 完了 | MIO、RDD2022、TRANCOS の run は `<DATA_ROOT>\runs` に保持。public repo には `.pt` weight は含めず、`model-artifacts/` には training summary のみを置く |
-| ML asset を repository 外に配置 | 完了 | dataset、cache、run、snapshot は `../traffic-incident-data` が default。`TRAFFIC_DATASETS_ROOT` で変更可能 |
-| 動画品質確認 | demo 可能 / 手動確認 | 短い確認用動画と YOLO box 出力は `<DATA_ROOT>\yolovideotest` に local 保持。public repo では dataset 由来 MP4/snapshot を除外し、確認済み API event は demo DB に残す |
+| 学習済み weight のローカル保持 | 完了 | MIO、RDD2022、TRANCOS の run は `<DATA_ROOT>\runs` に保持。public repo には `.pt` weight は含めず、`model-artifacts/` には training summary のみを置く |
+| ML asset を repository 外に配置 | 完了 | dataset、cache、run、snapshot は `../traffic-incident-data` がデフォルト。`TRAFFIC_DATASETS_ROOT` で変更可能 |
+| 動画品質確認 | デモ可能 / 手動確認 | 短い確認用動画と YOLO box 出力は `<DATA_ROOT>\yolovideotest` にローカル保持。public repo では dataset 由来 MP4/snapshot を除外し、確認済み API event は demo DB に残す |
 
 ## 手動で確認すべき点
 

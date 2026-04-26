@@ -2,7 +2,7 @@
 
 言語: [English](yolo-video-test.md) | [日本語](yolo-video-test.ja.md) | [繁體中文](yolo-video-test.zh-Hant.md)
 
-[Document Index](document-index.ja.md) に戻る
+[ドキュメント一覧](document-index.ja.md) に戻る
 
 ローカルの YOLO 動画テスト用フォルダ:
 
@@ -10,12 +10,12 @@
 <DATA_ROOT>\yolovideotest
 ```
 
-`<DATA_ROOT>` は repository 外の ML data directory です。`TRAFFIC_DATASETS_ROOT` を設定していない場合、default は `../traffic-incident-data` です。
+`<DATA_ROOT>` は repository 外の ML データディレクトリです。`TRAFFIC_DATASETS_ROOT` を設定していない場合、デフォルトは `../traffic-incident-data` です。
 
 > [!NOTE]
-> public repository には video test workflow と demo DB 内の検証済み API row を残していますが、dataset 由来 MP4 や YOLO weight は再配布しません。
+> public repository には動画テスト手順と demo DB 内の検証済み API row を残していますが、dataset 由来 MP4 や YOLO weight は再配布しません。
 
-public GitHub release では、dataset 由来の MP4 file は repo に commit しません。YOLO demo を実行する場合は、`<DATA_ROOT>\yolovideotest` にローカル保持するか、再生成してください。
+public GitHub release では、dataset 由来の MP4 file は repository に commit しません。YOLO demo を実行する場合は、`<DATA_ROOT>\yolovideotest` にローカル保持するか、再生成してください。
 
 含まれる短い入力動画:
 
@@ -102,7 +102,7 @@ Invoke-RestMethod 'http://127.0.0.1:8000/events?camera_id=CAM-YOLO-VIDEO-RDD&sor
   ConvertTo-Json -Depth 12
 ```
 
-packaged demo database で確認済みの record:
+同梱 demo database で確認済みの record:
 
 - `CAM-YOLO-VIDEO-RDD:DEBRIS:20260426T141118178311:a44c447c`
 - `CAM-YOLO-VIDEO-RDD:DEBRIS:20260426T141119377223:8545637c`

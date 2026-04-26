@@ -12,46 +12,46 @@
 這是針對後端面試課題完成的交通事件監控平台。系統接收 AI 影像分析產生的道路事件，保存到 SQLite，提供可查詢 REST API，並透過 SSE 即時推送到 Dashboard。
 
 > [!NOTE]
-> 這個 public repository 已做公開發布整理：不包含 raw dataset、dataset 派生 MP4、snapshot、trained `.pt` weight、本地 `.env` 或個人電腦路徑。
+> 這個公開 repository 已整理成可安全分享的狀態：不包含原始資料集、資料集派生 MP4、snapshot、訓練完成的 `.pt` weight、本地 `.env` 或個人電腦路徑。
 
-## Reviewer Quick Path
+## 審查快速路徑
 
-| 目的 | Link / Command |
+| 目的 | 連結 / 指令 |
 | --- | --- |
-| 啟動 demo | `docker compose up -d --build` |
-| API docs | `http://127.0.0.1:8000/docs` |
-| Dashboard | `http://127.0.0.1:8000/ui/` |
-| 查看完成度 | [Implementation vs Requirements](docs/implementation-vs-requirements-v2.md) |
-| 查看部署方式 | [Deployment](docs/deployment.zh-Hant.md) |
-| 查看所有文檔 | [Document Index](docs/document-index.zh-Hant.md) |
+| 啟動示範 | `docker compose up -d --build` |
+| API 文件 | `http://127.0.0.1:8000/docs` |
+| 儀表板 | `http://127.0.0.1:8000/ui/` |
+| 查看完成度 | [目前實作 vs 要件](docs/implementation-vs-requirements-v2.md) |
+| 查看部署方式 | [部署 / 執行指南](docs/deployment.zh-Hant.md) |
+| 查看所有文檔 | [文檔索引](docs/document-index.zh-Hant.md) |
 
-## Document Hub
+## 文檔中心
 
-| Document | English | Japanese | Chinese |
+| 文檔 | 英文 | 日文 | 繁體中文 |
 | --- | --- | --- | --- |
-| Document index | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
-| Deployment guide | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
-| Implementation status | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
-| Requirements specification | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
-| AI workflow log | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |
-| AI conversation source | [EN](docs/ai-conversation-source.en.md) | [JA](docs/ai-conversation-source.ja.md) | [ZH](docs/ai-conversation-source.zh-Hant.md) |
-| YOLO video test | [EN](docs/yolo-video-test.md) | [JA](docs/yolo-video-test.ja.md) | [ZH](docs/yolo-video-test.zh-Hant.md) |
-| Assets and sources | [EN](docs/submission-assets.md) | [JA](docs/submission-assets.ja.md) | [ZH](docs/submission-assets.zh-Hant.md) |
-| Public release notes | [EN](docs/public-release-notes.md) | [JA](docs/public-release-notes.ja.md) | [ZH](docs/public-release-notes.zh-Hant.md) |
+| 文檔索引 | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
+| 部署 / 執行指南 | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
+| 實作完成度 | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
+| 要件定義書 | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
+| AI 使用紀錄 | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |
+| AI 對話來源 | [EN](docs/ai-conversation-source.en.md) | [JA](docs/ai-conversation-source.ja.md) | [ZH](docs/ai-conversation-source.zh-Hant.md) |
+| YOLO 影片測試 | [EN](docs/yolo-video-test.md) | [JA](docs/yolo-video-test.ja.md) | [ZH](docs/yolo-video-test.zh-Hant.md) |
+| 提交素材與資料來源 | [EN](docs/submission-assets.md) | [JA](docs/submission-assets.ja.md) | [ZH](docs/submission-assets.zh-Hant.md) |
+| 公開發布說明 | [EN](docs/public-release-notes.md) | [JA](docs/public-release-notes.ja.md) | [ZH](docs/public-release-notes.zh-Hant.md) |
 
-原始來源: [requirements PDF](docs/requirements_spec.md.pdf), [AI conversation PDF](docs/Claude_geminiconversation.md.pdf), [raw extracted AI conversation](docs/ai-conversation-source.md)。
+原始來源：[要件 PDF](docs/requirements_spec.md.pdf)、[AI 對話 PDF](docs/Claude_geminiconversation.md.pdf)、[AI 對話 raw 抽出 Markdown](docs/ai-conversation-source.md)。
 
 ## 包含內容
 
-| Area | Highlights |
+| 領域 | 內容 |
 | --- | --- |
-| API | FastAPI、Pydantic validation、`source_event_id` 冪等接收、list/detail/status endpoints |
-| Realtime | SSE 推送 `incident.created` / `incident.status_updated` |
-| Persistence | SQLAlchemy + SQLite，Docker volume persistence |
-| Dashboard | Vanilla JS、EN/JA/ZH、filter guidance、pagination、tooltip、可退回 status 操作 |
-| Demo Ops | Docker Compose、seed script、Swagger UI、packaged demo DB |
-| YOLO Extension | download / prepare / train / infer / API post pipeline |
-| Evidence | tests、screenshots、AI logs、requirements comparison、public-release notes |
+| API | FastAPI、Pydantic 驗證、`source_event_id` 冪等接收、列表 / 詳細 / 狀態 API |
+| 即時推送 | SSE 推送 `incident.created` / `incident.status_updated` |
+| 持久化 | SQLAlchemy + SQLite，透過 Docker volume 保存資料 |
+| 儀表板 | Vanilla JS、EN/JA/ZH、篩選說明、分頁、tooltip、可退回狀態操作 |
+| 示範運用 | Docker Compose、seed script、Swagger UI、同梱 demo DB |
+| YOLO 擴充 | download / prepare / train / infer / API post pipeline |
+| 證據資料 | tests、screenshots、AI logs、要件比較、公開發布說明 |
 
 ## 技術選型
 
@@ -92,10 +92,10 @@ python -m venv .venv
 
 打開:
 
-- API docs: `http://localhost:8000/docs`
-- Dashboard: `http://localhost:8000/ui/`
+- API 文件: `http://localhost:8000/docs`
+- 儀表板: `http://localhost:8000/ui/`
 
-產生 demo 事件:
+產生示範事件:
 
 ```powershell
 .\.venv\Scripts\python scripts\seed.py
@@ -158,7 +158,7 @@ public GitHub release 不包含 dataset 派生 MP4、snapshot、trained `.pt` we
 .\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\<run>\weights\best.pt --source <path-to-road-video>.mp4
 ```
 
-提交用 demo 最短確認方式:
+提交用示範最短確認方式:
 
 ```powershell
 docker compose up -d --build

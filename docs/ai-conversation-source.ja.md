@@ -154,15 +154,15 @@ Database model は UUID primary key、event type / severity / status の enum、
 
 Claude は `requirements_spec.md` として以下の構成を整理した。
 
-1. Project overview。
-2. Functional requirements。
-3. API endpoint specification。
-4. Data model。
-5. Non-functional requirements。
-6. YOLO dataset selection。
-7. Directory structure。
-8. Implementation phases。
-9. Out of scope。
+1. プロジェクト概要。
+2. 機能要件。
+3. API エンドポイント仕様。
+4. データモデル。
+5. 非機能要件。
+6. YOLO データセット選定。
+7. ディレクトリ構成。
+8. 実装フェーズ。
+9. 対象外。
 
 ## Q9. Data について
 
@@ -218,18 +218,18 @@ Task の性質:
 
 ## Q13-Q14. 具体的な要件定義書と Markdown 版
 
-Claude は要件定義書と implementation steps を Markdown として生成した。構成は:
+Claude は要件定義書と実装手順を Markdown として生成した。構成は:
 
 ```text
-01 Overview
-02 Functional requirements
-03 API specification
-04 Data model
-05 Non-functional requirements
-06 Dataset selection
-07 Directory structure
-08 Implementation steps, Phase 1-4
-09 Out of scope
+01 概要
+02 機能要件
+03 API 仕様
+04 データモデル
+05 非機能要件
+06 データセット選定
+07 ディレクトリ構成
+08 実装手順、フェーズ 1-4
+09 対象外
 ```
 
 ## Q15-Q16. Feedback と更新

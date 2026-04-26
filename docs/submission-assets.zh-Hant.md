@@ -1,20 +1,20 @@
-# Public 提交用資產與資料來源
+# 公開提交用素材與資料來源
 
 語言: [English](submission-assets.md) | [日本語](submission-assets.ja.md) | [繁體中文](submission-assets.zh-Hant.md)
 
-回到 [Document Index](document-index.zh-Hant.md)
+回到 [文檔索引](document-index.zh-Hant.md)
 
-這份文件說明 repo 內包含哪些非程式 demo 資產，以及這些資料從哪裡來。
+這份文件說明 repository 內包含哪些非程式示範素材，以及這些資料從哪裡來。
 
 > [!NOTE]
-> public repository 包含可重現證據與 demo data，不包含 raw training assets 或 trained weights。
+> public repository 包含可重現證據與示範資料，不包含 raw training assets 或 trained weights。
 
-## 已放入 Repo 的內容
+## 已放入 Repository 的內容
 
 - API、Dashboard、seed script、tests、YOLO pipeline 原始碼。
 - `model-artifacts/*/args.yaml`, `results.csv`, `results.png`, `confusion_matrix.png`: 已選訓練 run 的設定與結果摘要。
 - `demo-data/incidents-demo.db`: 展示用 SQLite demo database snapshot。
-- `docs/public-release-notes*.md`: dataset 派生 artifact 的 public release compliance notes。
+- `docs/public-release-notes*.md`: dataset 派生 artifact 的公開發布合規說明。
 
 ## 刻意不放入的內容
 
