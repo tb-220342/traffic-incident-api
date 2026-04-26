@@ -13,6 +13,10 @@
 - `docs/deployment.md`: Docker Compose、local Python、database persistence、YOLO write-to-API 確認を含む実行 / deployment guide。
 - `docs/deployment.ja.md`: 日本語 deployment guide。
 - `docs/deployment.zh-Hant.md`: 繁體中文 deployment guide。
+- `docs/requirements-spec.en.md`: English の要件定義書翻訳。
+- `docs/requirements-spec.ja.md`: 日本語の要件定義書。
+- `docs/requirements-spec.zh-Hant.md`: 繁體中文の要件定義書翻訳。
+- `docs/requirements_spec.md.pdf`: 要件定義書の元 PDF。
 - `docs/implementation-vs-requirements-v2.en.md`: English の実装 vs 要件 status。
 - `docs/implementation-vs-requirements-v2.ja.md`: 日本語の実装 vs 要件 status。
 - `docs/implementation-vs-requirements-v2.md`: 繁體中文の実装 vs 要件 status。
@@ -23,6 +27,9 @@
 - `docs/ai-log.ja.md`: 日本語の AI workflow summary。
 - `docs/ai-log.zh-Hant.md`: 繁體中文の AI workflow summary。
 - `docs/ai-conversation-source.md`: Claude / Gemini 対話の抽出 text。
+- `docs/ai-conversation-source.en.md`: Claude / Gemini 対話 source の English translation。
+- `docs/ai-conversation-source.ja.md`: Claude / Gemini 対話 source の日本語 translation。
+- `docs/ai-conversation-source.zh-Hant.md`: Claude / Gemini 対話 source の繁體中文 translation。
 - `docs/Claude_geminiconversation.md.pdf`: Claude / Gemini 対話の元 PDF。
 
 ## YOLO / data evidence

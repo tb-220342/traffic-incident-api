@@ -13,6 +13,10 @@ Use this page as the map for the repository documents.
 - `docs/deployment.md`: how to run/deploy the demo with Docker Compose, local Python, database persistence, and YOLO write-to-API verification.
 - `docs/deployment.ja.md`: Japanese deployment guide.
 - `docs/deployment.zh-Hant.md`: Traditional Chinese deployment guide.
+- `docs/requirements-spec.en.md`: translated requirements specification in English.
+- `docs/requirements-spec.ja.md`: translated requirements specification in Japanese.
+- `docs/requirements-spec.zh-Hant.md`: translated requirements specification in Traditional Chinese.
+- `docs/requirements_spec.md.pdf`: original requirements specification PDF.
 - `docs/implementation-vs-requirements-v2.en.md`: implementation vs requirements status in English.
 - `docs/implementation-vs-requirements-v2.ja.md`: implementation vs requirements status in Japanese.
 - `docs/implementation-vs-requirements-v2.md`: implementation vs requirements status in Traditional Chinese.
@@ -23,6 +27,9 @@ Use this page as the map for the repository documents.
 - `docs/ai-log.ja.md`: summarized AI workflow log in Japanese.
 - `docs/ai-log.zh-Hant.md`: summarized AI workflow log in Traditional Chinese.
 - `docs/ai-conversation-source.md`: extracted raw Claude/Gemini conversation text.
+- `docs/ai-conversation-source.en.md`: English translation of the Claude/Gemini conversation source.
+- `docs/ai-conversation-source.ja.md`: Japanese translation of the Claude/Gemini conversation source.
+- `docs/ai-conversation-source.zh-Hant.md`: Traditional Chinese translation of the Claude/Gemini conversation source.
 - `docs/Claude_geminiconversation.md.pdf`: original Claude/Gemini conversation PDF.
 
 ## YOLO / Data Evidence

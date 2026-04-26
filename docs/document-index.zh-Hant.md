@@ -13,6 +13,10 @@
 - `docs/deployment.md`: 英文部署 / 執行指南，包含 Docker Compose、本機 Python、DB 持久化、YOLO 寫入 API 驗證。
 - `docs/deployment.ja.md`: 日文部署 / 執行指南。
 - `docs/deployment.zh-Hant.md`: 繁體中文部署 / 執行指南。
+- `docs/requirements-spec.en.md`: 英文要件定義書翻譯。
+- `docs/requirements-spec.ja.md`: 日文要件定義書翻譯。
+- `docs/requirements-spec.zh-Hant.md`: 繁體中文要件定義書。
+- `docs/requirements_spec.md.pdf`: 要件定義書原始 PDF。
 - `docs/implementation-vs-requirements-v2.en.md`: 英文「實作 vs 要件」完成度。
 - `docs/implementation-vs-requirements-v2.ja.md`: 日文「實作 vs 要件」完成度。
 - `docs/implementation-vs-requirements-v2.md`: 繁體中文「實作 vs 要件」完成度。
@@ -23,6 +27,9 @@
 - `docs/ai-log.ja.md`: 日文 AI workflow summary。
 - `docs/ai-log.zh-Hant.md`: 繁體中文 AI workflow summary。
 - `docs/ai-conversation-source.md`: Claude / Gemini 對話抽出文字。
+- `docs/ai-conversation-source.en.md`: Claude / Gemini 對話來源英文翻譯。
+- `docs/ai-conversation-source.ja.md`: Claude / Gemini 對話來源日文翻譯。
+- `docs/ai-conversation-source.zh-Hant.md`: Claude / Gemini 對話來源繁體中文翻譯。
 - `docs/Claude_geminiconversation.md.pdf`: Claude / Gemini 對話原始 PDF。
 
 ## YOLO / 資料證據

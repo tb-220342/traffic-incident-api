@@ -1,3 +1,9 @@
+Raw extracted Claude/Gemini conversation text.
+
+Translations: [English](ai-conversation-source.en.md) | [日本語](ai-conversation-source.ja.md) | [繁體中文](ai-conversation-source.zh-Hant.md)
+
+Original PDF: [Claude_geminiconversation.md.pdf](Claude_geminiconversation.md.pdf)
+
 ===== PAGE 1 =====
 Claude Conversation Log
 課題完成の初步想法  — Traﬃc Incident Monitoring API
