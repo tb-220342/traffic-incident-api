@@ -1,7 +1,7 @@
 task: detect
 mode: train
 model: yolov8n.pt
-data: D:\Datasets\traffic-incident\prepared\trancos\data.yaml
+data: <DATA_ROOT>\prepared\trancos\data.yaml
 epochs: 30
 time: null
 patience: 100
@@ -12,7 +12,7 @@ save_period: -1
 cache: false
 device: '0'
 workers: 2
-project: D:\Datasets\traffic-incident\runs\trancos
+project: <DATA_ROOT>\runs\trancos
 name: trancos-full-20260421-013913
 exist_ok: true
 pretrained: true
@@ -107,4 +107,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: D:\Datasets\traffic-incident\runs\trancos\trancos-full-20260421-013913
+save_dir: <DATA_ROOT>\runs\trancos\trancos-full-20260421-013913

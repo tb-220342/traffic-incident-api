@@ -5,7 +5,7 @@ Public repository note:
 This folder intentionally contains documentation only. The actual MP4 clips, annotated MP4 outputs, and snapshot images are dataset-derived artifacts and are not committed to the public GitHub repository.
 
 Local artifact location:
-D:\Datasets\traffic-incident\yolovideotest
+<DATA_ROOT>\yolovideotest
 
 Expected local input clips:
 - mio_vehicle_short.mp4
@@ -33,8 +33,8 @@ That is useful for a demo because it exposes model quality issues clearly:
 
 Dry-run commands, no API writes:
 
-powershell -ExecutionPolicy Bypass -Command "cd D:\Projects\traffic-incident-api; .\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights D:\Datasets\traffic-incident\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt --source D:\Datasets\traffic-incident\yolovideotest\mio_vehicle_short.mp4 --base-url http://127.0.0.1:8000 --camera-id CAM-YOLO-VIDEO-MIO --highway-id E1 --confidence 0.25 --stop-seconds 1 --cooldown-seconds 5 --annotated-output D:\Datasets\traffic-incident\yolovideotest\mio_vehicle_short.boxes.mp4 --dry-run"
+powershell -ExecutionPolicy Bypass -Command "cd <repo-root>; .\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights <DATA_ROOT>\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt --source <DATA_ROOT>\yolovideotest\mio_vehicle_short.mp4 --base-url http://127.0.0.1:8000 --camera-id CAM-YOLO-VIDEO-MIO --highway-id E1 --confidence 0.25 --stop-seconds 1 --cooldown-seconds 5 --annotated-output <DATA_ROOT>\yolovideotest\mio_vehicle_short.boxes.mp4 --dry-run"
 
-powershell -ExecutionPolicy Bypass -Command "cd D:\Projects\traffic-incident-api; .\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 --base-url http://127.0.0.1:8000 --camera-id CAM-YOLO-VIDEO-RDD --highway-id E1 --confidence 0.25 --frame-stride 1 --cooldown-seconds 5 --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4 --dry-run"
+powershell -ExecutionPolicy Bypass -Command "cd <repo-root>; .\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 --base-url http://127.0.0.1:8000 --camera-id CAM-YOLO-VIDEO-RDD --highway-id E1 --confidence 0.25 --frame-stride 1 --cooldown-seconds 5 --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4 --dry-run"
 
 To post generated incidents to the API, remove --dry-run.

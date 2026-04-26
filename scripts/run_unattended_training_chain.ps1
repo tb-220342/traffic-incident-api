@@ -14,11 +14,17 @@ $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $python = Join-Path $projectRoot ".venv\Scripts\python.exe"
-$runsRoot = "D:\Datasets\traffic-incident\runs"
+$defaultDataRoot = Join-Path (Split-Path -Parent $projectRoot) "traffic-incident-data"
+$dataRoot = if ($env:TRAFFIC_DATASETS_ROOT) { $env:TRAFFIC_DATASETS_ROOT } else { $defaultDataRoot }
+$cacheRoot = if ($env:TRAFFIC_CACHE_ROOT) { $env:TRAFFIC_CACHE_ROOT } else { Join-Path $dataRoot "cache" }
+$runsRoot = if ($env:TRAFFIC_RUNS_ROOT) { $env:TRAFFIC_RUNS_ROOT } else { Join-Path $dataRoot "runs" }
 
-$env:TORCH_HOME = "D:\Datasets\traffic-incident\cache\torch"
-$env:ULTRALYTICS_CACHE_DIR = "D:\Datasets\traffic-incident\cache\ultralytics"
-$env:YOLO_CONFIG_DIR = "D:\Datasets\traffic-incident\cache\ultralytics"
+$env:TRAFFIC_DATASETS_ROOT = $dataRoot
+$env:TRAFFIC_CACHE_ROOT = $cacheRoot
+$env:TRAFFIC_RUNS_ROOT = $runsRoot
+$env:TORCH_HOME = Join-Path $cacheRoot "torch"
+$env:ULTRALYTICS_CACHE_DIR = Join-Path $cacheRoot "ultralytics"
+$env:YOLO_CONFIG_DIR = Join-Path $cacheRoot "ultralytics"
 
 function Write-Status {
     param([string]$Message)

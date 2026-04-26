@@ -53,9 +53,9 @@
 | 項目 | 状態 | 説明 |
 | --- | --- | --- |
 | `infer_video.py` から API 送信 | 完了 | 2026-04-26 に `rdd_damage_short.mp4` で確認済み。`CAM-YOLO-VIDEO-RDD` から `DEBRIS` event が 2 件保存された |
-| 学習済み weight の local 保持 | 完了 | MIO、RDD2022、TRANCOS の run は `D:\Datasets\traffic-incident\runs` に保持。public repo には `.pt` weight は含めず、`model-artifacts/` には training summary のみを置く |
-| ML asset を D ドライブに配置 | 完了 | dataset、cache、run、snapshot は `D:` が default |
-| 動画品質確認 | demo 可能 / 手動確認 | 短い確認用動画と YOLO box 出力は `D:\Datasets\traffic-incident\yolovideotest` に local 保持。public repo では dataset 由来 MP4/snapshot を除外し、確認済み API event は demo DB に残す |
+| 学習済み weight の local 保持 | 完了 | MIO、RDD2022、TRANCOS の run は `<DATA_ROOT>\runs` に保持。public repo には `.pt` weight は含めず、`model-artifacts/` には training summary のみを置く |
+| ML asset を repository 外に配置 | 完了 | dataset、cache、run、snapshot は `../traffic-incident-data` が default。`TRAFFIC_DATASETS_ROOT` で変更可能 |
+| 動画品質確認 | demo 可能 / 手動確認 | 短い確認用動画と YOLO box 出力は `<DATA_ROOT>\yolovideotest` に local 保持。public repo では dataset 由来 MP4/snapshot を除外し、確認済み API event は demo DB に残す |
 
 ## 手動で確認すべき点
 
@@ -76,7 +76,7 @@
 ### Docker
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose ps
 ```
@@ -101,14 +101,14 @@ docker compose down
 ### ローカル API
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\uvicorn app.main:app --reload
 ```
 
 ### テスト
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\pytest
 ```
 
@@ -164,21 +164,21 @@ curl.exe -N http://127.0.0.1:8000/events/stream
 車両 / 停止車両 / 渋滞:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode vehicle `
-  --weights D:\Datasets\traffic-incident\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
-  --source D:\path\to\highway.mp4 `
+  --weights <DATA_ROOT>\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
+  --source <path-to-highway-video>.mp4 `
   --base-url http://127.0.0.1:8000
 ```
 
 路面異常 / debris:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\path\to\road.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <path-to-road-video>.mp4 `
   --base-url http://127.0.0.1:8000
 ```

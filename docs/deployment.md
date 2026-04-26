@@ -2,10 +2,15 @@
 
 This project is designed as an interview/demo service. The recommended deployment for review is Docker Compose on a local machine.
 
+Notation:
+
+- `<repo-root>` means the directory where the reviewer cloned this repository.
+- `<DATA_ROOT>` means an external ML data directory. The default is `../traffic-incident-data`, and it can be changed with `TRAFFIC_DATASETS_ROOT`.
+
 ## Recommended Demo Deployment
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose ps
 ```
@@ -36,7 +41,7 @@ docker compose down
 ## Local Python Run
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 python -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 .\.venv\Scripts\uvicorn app.main:app --reload
@@ -49,7 +54,7 @@ This is useful for development. Docker Compose is easier for reviewer playback.
 Docker Compose mounts `./data` into the API container, so SQLite persists at:
 
 ```text
-D:\Projects\traffic-incident-api\data\incidents.db
+<repo-root>\data\incidents.db
 ```
 
 The repository also includes a packaged demo database snapshot:
@@ -62,7 +67,7 @@ That snapshot contains seed/demo records plus two verified YOLO-generated `DEBRI
 
 ## YOLO Write-To-API Demo
 
-Public GitHub releases intentionally do not include dataset-derived MP4 clips, YOLO snapshots, or trained `.pt` weights. To run this demo, keep the local dataset artifacts under `D:\Datasets\traffic-incident` or regenerate them with the scripts in `yolo/`. The packaged demo database still contains two verified YOLO-generated rows, so the reviewer can confirm API/UI behavior without redistributing the underlying media or weights.
+Public GitHub releases intentionally do not include dataset-derived MP4 clips, YOLO snapshots, or trained `.pt` weights. To run this demo, keep the local dataset artifacts under `<DATA_ROOT>` or regenerate them with the scripts in `yolo/`. The packaged demo database still contains two verified YOLO-generated rows, so the reviewer can confirm API/UI behavior without redistributing the underlying media or weights.
 
 Start the API and stop seed:
 
@@ -76,14 +81,14 @@ Run the local RDD clip without `--dry-run`:
 ```powershell
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 `
   --base-url http://127.0.0.1:8000 `
   --camera-id CAM-YOLO-VIDEO-RDD `
   --confidence 0.25 `
   --frame-stride 1 `
   --cooldown-seconds 5 `
-  --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4
+  --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4
 ```
 
 Query written records:

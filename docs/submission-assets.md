@@ -11,11 +11,11 @@ This document explains which non-code demo artifacts are included in the reposit
 
 ## Excluded Intentionally
 
-- Raw and prepared training images are not included because they are large and should stay under `D:\Datasets\traffic-incident`.
+- Raw and prepared training images are not included because they are large and should stay under `<DATA_ROOT>`.
 - Dataset-derived YOLO demo MP4 files are not included in the public repository.
 - YOLO snapshots generated from dataset frames are not included in the public repository.
 - Trained `.pt` weights are not included in the public repository because they are derived from MIO-TCD, RDD2022, and TRANCOS.
-- Intermediate epoch checkpoints are not included. There are 76 `.pt` checkpoint files under `D:\Datasets\traffic-incident\runs`, totaling about 1.39 GB.
+- Intermediate epoch checkpoints are not included. There are 76 `.pt` checkpoint files under `<DATA_ROOT>\runs`, totaling about 1.39 GB.
 - Caches, virtual environments, and local secrets are excluded.
 
 ## Data Sources
@@ -29,7 +29,7 @@ The two short video clips are derived demo clips generated from validation image
 For public release, those clips and their annotated outputs remain local-only under:
 
 ```text
-D:\Datasets\traffic-incident\yolovideotest
+<DATA_ROOT>\yolovideotest
 ```
 
 ## Demo Database Source

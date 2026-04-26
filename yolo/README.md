@@ -2,13 +2,15 @@
 
 This directory turns the project from a pure back-end exercise into a training-enabled demo that can fine-tune YOLO models and feed detections back into the API.
 
-## Storage layout on `D:`
+## Storage Layout
 
-- Raw archives: `D:\Datasets\traffic-incident\raw`
-- Extracted/prepared datasets: `D:\Datasets\traffic-incident\prepared`
-- Training caches and pretrained weights: `D:\Datasets\traffic-incident\cache`
-- YOLO runs and checkpoints: `D:\Datasets\traffic-incident\runs`
-- Saved detector snapshots: `D:\Datasets\traffic-incident\snapshots`
+By default, ML datasets and training outputs are written outside the repository to `../traffic-incident-data`. Override this with `TRAFFIC_DATASETS_ROOT` when a different disk or workspace is preferred.
+
+- Raw archives: `<DATA_ROOT>/raw`
+- Extracted/prepared datasets: `<DATA_ROOT>/prepared`
+- Training caches and pretrained weights: `<DATA_ROOT>/cache`
+- YOLO runs and checkpoints: `<DATA_ROOT>/runs`
+- Saved detector snapshots: `<DATA_ROOT>/snapshots`
 
 ## Datasets
 
@@ -21,7 +23,7 @@ This directory turns the project from a pure back-end exercise into a training-e
 
 ## Setup
 
-Run the installer so large packages and caches stay on `D:`.
+Run the installer to prepare external package and model caches.
 
 ```powershell
 .\scripts\setup_training_env.ps1
@@ -56,13 +58,13 @@ You can override the model, epochs, or batch size if the GPU budget changes.
 Vehicle incidents:
 
 ```powershell
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights D:\Datasets\traffic-incident\runs\mio-localization\<run>\weights\best.pt --source D:\path\to\highway.mp4
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights <DATA_ROOT>\runs\mio-localization\<run>\weights\best.pt --source <path-to-highway-video>.mp4
 ```
 
 Road anomaly incidents:
 
 ```powershell
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights D:\Datasets\traffic-incident\runs\rdd2022\<run>\weights\best.pt --source D:\path\to\road.mp4
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\<run>\weights\best.pt --source <path-to-road-video>.mp4
 ```
 
 The script will post `STOPPED_VEHICLE`, `CONGESTION`, or `DEBRIS` events back to the API.

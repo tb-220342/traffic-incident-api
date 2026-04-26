@@ -11,11 +11,11 @@
 
 ## 意図的に含めていないもの
 
-- 生の学習画像と変換後の学習画像は、容量が大きいため含めていません。ローカルでは `D:\Datasets\traffic-incident` に置く前提です。
+- 生の学習画像と変換後の学習画像は、容量が大きいため含めていません。ローカルでは `<DATA_ROOT>` に置く前提です。
 - dataset 由来の YOLO demo MP4 は public repository に含めていません。
 - dataset frame から生成した YOLO snapshot は public repository に含めていません。
 - 学習済み `.pt` weight は、MIO-TCD、RDD2022、TRANCOS 由来の artifact なので public repository に含めていません。
-- intermediate epoch checkpoint は含めていません。`D:\Datasets\traffic-incident\runs` 配下には 76 個、合計約 1.39 GB の `.pt` checkpoint があります。
+- intermediate epoch checkpoint は含めていません。`<DATA_ROOT>\runs` 配下には 76 個、合計約 1.39 GB の `.pt` checkpoint があります。
 - cache、virtual environment、local secret は含めていません。
 
 ## データ出典
@@ -29,7 +29,7 @@
 public release では、これらの clip と annotated output は以下の local-only artifact として扱います。
 
 ```text
-D:\Datasets\traffic-incident\yolovideotest
+<DATA_ROOT>\yolovideotest
 ```
 
 ## Demo DB の出典

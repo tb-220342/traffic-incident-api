@@ -3,10 +3,12 @@
 The local YOLO video test folder is:
 
 ```text
-D:\Datasets\traffic-incident\yolovideotest
+<DATA_ROOT>\yolovideotest
 ```
 
-For public GitHub release, these dataset-derived MP4 files are not committed to the repository. Keep or regenerate them locally under `D:\Datasets\traffic-incident\yolovideotest` when you want to run the YOLO demo.
+`<DATA_ROOT>` is the external ML data directory, defaulting to `../traffic-incident-data` unless `TRAFFIC_DATASETS_ROOT` is set.
+
+For public GitHub release, these dataset-derived MP4 files are not committed to the repository. Keep or regenerate them locally under `<DATA_ROOT>\yolovideotest` when you want to run the YOLO demo.
 
 It contains two short input clips:
 
@@ -25,36 +27,36 @@ These clips are intentionally short, around 8 seconds each. They are generated f
 Vehicle / stopped-vehicle mode:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode vehicle `
-  --weights D:\Datasets\traffic-incident\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
-  --source D:\Datasets\traffic-incident\yolovideotest\mio_vehicle_short.mp4 `
+  --weights <DATA_ROOT>\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
+  --source <DATA_ROOT>\yolovideotest\mio_vehicle_short.mp4 `
   --base-url http://127.0.0.1:8000 `
   --camera-id CAM-YOLO-VIDEO-MIO `
   --highway-id E1 `
   --confidence 0.25 `
   --stop-seconds 1 `
   --cooldown-seconds 5 `
-  --annotated-output D:\Datasets\traffic-incident\yolovideotest\mio_vehicle_short.boxes.mp4 `
+  --annotated-output <DATA_ROOT>\yolovideotest\mio_vehicle_short.boxes.mp4 `
   --dry-run
 ```
 
 Road anomaly / debris mode:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 `
   --base-url http://127.0.0.1:8000 `
   --camera-id CAM-YOLO-VIDEO-RDD `
   --highway-id E1 `
   --confidence 0.25 `
   --frame-stride 1 `
   --cooldown-seconds 5 `
-  --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4 `
+  --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4 `
   --dry-run
 ```
 
@@ -65,7 +67,7 @@ Remove `--dry-run` when you want detections to be posted into the API and shown 
 Start the API and keep the seed service stopped so the YOLO records are easy to find:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose stop seed
 ```
@@ -75,15 +77,15 @@ Run the RDD clip without `--dry-run`:
 ```powershell
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 `
   --base-url http://127.0.0.1:8000 `
   --camera-id CAM-YOLO-VIDEO-RDD `
   --highway-id E1 `
   --confidence 0.25 `
   --frame-stride 1 `
   --cooldown-seconds 5 `
-  --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4
+  --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4
 ```
 
 Then query the events:

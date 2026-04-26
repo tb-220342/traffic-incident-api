@@ -1,3 +1,5 @@
+* text=auto eol=lf
+
 *.db binary
 *.mp4 binary
 *.pt binary

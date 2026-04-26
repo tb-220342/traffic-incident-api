@@ -34,6 +34,6 @@
 
 ## local で再現する方法
 
-`yolo/` 配下の script を使い、official dataset を `D:\Datasets\traffic-incident` に download し、YOLO label を prepare し、local training を行い、`yolo.infer_video` を local video に対して実行します。README と deployment guide には local reproduction 用の command を残していますが、この public repository では data-derived artifact を再配布しません。
+`yolo/` 配下の script を使い、official dataset を `<DATA_ROOT>` に download し、YOLO label を prepare し、local training を行い、`yolo.infer_video` を local video に対して実行します。README と deployment guide には local reproduction 用の command を残していますが、この public repository では data-derived artifact を再配布しません。
 
 これは技術的制限ではなく、public release 向けの保守的な compliance 判断です。

@@ -34,6 +34,6 @@
 
 ## 如何在本機再現
 
-使用 `yolo/` 底下的 script，把官方資料集下載到 `D:\Datasets\traffic-incident`，轉換 YOLO labels，本機訓練，再用 `yolo.infer_video` 對本機影片執行推理。README 和 deployment guide 保留了本機再現所需指令，但 public repository 不再散布 data-derived artifacts。
+使用 `yolo/` 底下的 script，把官方資料集下載到 `<DATA_ROOT>`，轉換 YOLO labels，本機訓練，再用 `yolo.infer_video` 對本機影片執行推理。README 和 deployment guide 保留了本機再現所需指令，但 public repository 不再散布 data-derived artifacts。
 
 這是公開發布時的保守合規選擇，不是技術限制。

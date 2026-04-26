@@ -53,9 +53,9 @@
 | 項目 | 狀態 | 說明 / 證據 |
 | --- | --- | --- |
 | `infer_video.py` 轉事件並送 API | 完成 | 2026-04-26 已用 `rdd_damage_short.mp4` 驗證，`CAM-YOLO-VIDEO-RDD` 寫入 2 筆 `DEBRIS` event |
-| 訓練權重本機保留 | 完成 | `MIO`、`RDD2022`、`TRANCOS` 權重保留在 `D:\\Datasets\\traffic-incident\\runs`；public repo 不包含 `.pt` weight，`model-artifacts/` 只保留 training summary |
-| 訓練資料 / 快取放在 `D:` | 完成 | `yolo/config.py` 已固定 datasets/cache/runs/snapshots 走 `D:` |
-| 端到端影片驗證 | 可 demo / 待人工看品質 | 短版測試影片與 YOLO box 輸出保留在 `D:\\Datasets\\traffic-incident\\yolovideotest`；public repo 排除 dataset 派生 MP4/snapshot，但 demo DB 保留已驗證的 API event |
+| 訓練權重本機保留 | 完成 | `MIO`、`RDD2022`、`TRANCOS` 權重保留在 `<DATA_ROOT>\\runs`；public repo 不包含 `.pt` weight，`model-artifacts/` 只保留 training summary |
+| 訓練資料 / 快取放在 repo 外 | 完成 | 預設使用 `../traffic-incident-data`，也可用 `TRAFFIC_DATASETS_ROOT` 指定任意磁碟或 workspace |
+| 端到端影片驗證 | 可 demo / 待人工看品質 | 短版測試影片與 YOLO box 輸出保留在 `<DATA_ROOT>\\yolovideotest`；public repo 排除 dataset 派生 MP4/snapshot，但 demo DB 保留已驗證的 API event |
 
 ## 目前仍建議你人工確認的點
 
@@ -79,7 +79,7 @@
 ### A. Docker 跑整套
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose ps
 ```
@@ -104,14 +104,14 @@ docker compose down
 ### B. 本地直接跑 API
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\uvicorn app.main:app --reload
 ```
 
 ### C. 跑測試
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\pytest
 ```
 
@@ -232,20 +232,20 @@ docker compose logs -f api
 ### 已可直接使用的權重
 
 - MIO vehicle detector：
-  - `D:\Datasets\traffic-incident\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt`
+  - `<DATA_ROOT>\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt`
 - RDD2022 damage detector：
-  - `D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt`
+  - `<DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt`
 - TRANCOS calibration detector：
-  - `D:\Datasets\traffic-incident\runs\trancos\trancos-full-20260421-013913\weights\best.pt`
+  - `<DATA_ROOT>\runs\trancos\trancos-full-20260421-013913\weights\best.pt`
 
 ### 車流 / 停車事件驗證
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode vehicle `
-  --weights D:\Datasets\traffic-incident\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
-  --source D:\path\to\highway.mp4 `
+  --weights <DATA_ROOT>\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
+  --source <path-to-highway-video>.mp4 `
   --base-url http://127.0.0.1:8000
 ```
 
@@ -254,16 +254,16 @@ cd D:\Projects\traffic-incident-api
 - 終端機輸出 `reported STOPPED_VEHICLE` 或 `reported CONGESTION`
 - API 會出現新事件
 - Dashboard 會插入新卡片
-- snapshot 會落在 `D:\Datasets\traffic-incident\snapshots`
+- snapshot 會落在 `<DATA_ROOT>\snapshots`
 
 ### 路面異常 / debris 驗證
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\path\to\road.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <path-to-road-video>.mp4 `
   --base-url http://127.0.0.1:8000
 ```
 

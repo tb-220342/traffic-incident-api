@@ -34,6 +34,6 @@ This repository is intended to be public on GitHub. For that reason, it does not
 
 ## How To Reproduce Locally
 
-Use the scripts under `yolo/` to download the official datasets to `D:\Datasets\traffic-incident`, prepare YOLO labels, train locally, and run `yolo.infer_video` against local videos. The README and deployment guide keep the commands needed for local reproduction, while this public repository avoids redistributing the underlying data-derived artifacts.
+Use the scripts under `yolo/` to download the official datasets to `<DATA_ROOT>`, prepare YOLO labels, train locally, and run `yolo.infer_video` against local videos. The README and deployment guide keep the commands needed for local reproduction, while this public repository avoids redistributing the underlying data-derived artifacts.
 
 This is a conservative compliance choice, not a technical limitation.

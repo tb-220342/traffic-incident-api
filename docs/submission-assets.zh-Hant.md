@@ -11,11 +11,11 @@
 
 ## 刻意不放入的內容
 
-- 原始訓練圖片與轉換後訓練圖片不放入 repo，因為容量很大，預設保留在 `D:\Datasets\traffic-incident`。
+- 原始訓練圖片與轉換後訓練圖片不放入 repo，因為容量很大，預設保留在 `<DATA_ROOT>`。
 - dataset 派生的 YOLO demo MP4 不放入 public repository。
 - 由 dataset frame 生成的 YOLO snapshot 不放入 public repository。
 - 訓練完成的 `.pt` weight 由 MIO-TCD、RDD2022、TRANCOS 派生，因此不放入 public repository。
-- intermediate epoch checkpoint 不放入 repo。`D:\Datasets\traffic-incident\runs` 底下共有 76 個 `.pt` checkpoint，合計約 1.39 GB。
+- intermediate epoch checkpoint 不放入 repo。`<DATA_ROOT>\runs` 底下共有 76 個 `.pt` checkpoint，合計約 1.39 GB。
 - cache、virtual environment、本地 secret 不放入 repo。
 
 ## 資料來源
@@ -29,7 +29,7 @@
 公開發布時，這些 clip 與 annotated output 只作為本機 artifact 保留在:
 
 ```text
-D:\Datasets\traffic-incident\yolovideotest
+<DATA_ROOT>\yolovideotest
 ```
 
 ## Demo DB 來源

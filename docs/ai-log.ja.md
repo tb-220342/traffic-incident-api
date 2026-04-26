@@ -7,9 +7,9 @@ Claude / Gemini との対話原文は `docs/ai-conversation-source.md` に抽出
 
 ## 参照した入力
 
-- `C:\Users\85260\Downloads\Back-End_Candidate_Evaluation.pdf`
-- `C:\Users\85260\Downloads\requirements_spec.md.pdf`
-- `C:\Users\85260\Downloads\Claude_geminiconversation.md.pdf`
+- `provided evaluation PDF`
+- `provided requirements PDF`
+- `provided Claude/Gemini conversation PDF`
 
 ## 作業の流れ
 
@@ -25,13 +25,13 @@ Claude / Gemini との対話原文は `docs/ai-conversation-source.md` に抽出
    - まず core API と SSE を実装する。
    - 次に軽量 Dashboard でリアルタイム動作を見せる。
    - その後、テスト、README、Docker、seed script を追加する。
-4. `D:\Projects\traffic-incident-api` にプロジェクトを作成しました。
+4. `<repo-root>` にプロジェクトを作成しました。
 5. ローカル検証を行い、テスト中に見つかった問題を修正しました。
 6. 学習対応版として YOLO 関連機能を拡張しました。
    - MIO-TCD、RDD2022、TRANCOS の downloader を追加。
    - MIO-TCD と RDD2022 のデータ変換 script を追加。
    - YOLO 学習コマンドと動画推論から API に送信する utility を追加。
-   - 大きな dataset/cache/run/snapshot は `D:\Datasets\traffic-incident` に配置。
+   - 大きな dataset/cache/run/snapshot は `<DATA_ROOT>` に配置。
    - RDD2022 の動画推論を `--dry-run` なしで実行し、API 経由で `DEBRIS` event が 2 件保存されることを確認。
 7. 提出前の整備として、Dashboard と Markdown 文書を English / 日本語 / 繁體中文 に対応させました。
 
@@ -43,7 +43,7 @@ Claude / Gemini との対話原文は `docs/ai-conversation-source.md` に抽出
 - API は成功時 `{ success, data, meta }`、失敗時 `{ success, error }` の形式に統一しました。
 - 検知システムからの重複送信に備え、`source_event_id` を冪等キーにしました。
 - MIO-TCD は車両検出、RDD2022 は路面異常を `DEBRIS` 相当の危険イベントとして扱うために使用しました。
-- C ドライブ容量を圧迫しないよう、ML 関連の大きなファイルは `D:` に配置しました。
+- ML 関連の大きなファイルは repository 外に置き、`TRAFFIC_DATASETS_ROOT` で reviewer が任意の disk / workspace を選べるようにしました。
 
 ## 今回の範囲外
 

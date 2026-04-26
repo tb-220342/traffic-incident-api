@@ -2,10 +2,15 @@
 
 這個專案是面試課題用的 demo service。給面試官重現時，推薦使用本機 Docker Compose。
 
+表記:
+
+- `<repo-root>` 代表 reviewer clone 這個 repository 的目錄。
+- `<DATA_ROOT>` 代表 repository 外部的 ML data directory。預設是 `../traffic-incident-data`，可用 `TRAFFIC_DATASETS_ROOT` 更改。
+
 ## 推薦 Demo 部署方式
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose ps
 ```
@@ -36,7 +41,7 @@ docker compose down
 ## 本機 Python 執行
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 python -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 .\.venv\Scripts\uvicorn app.main:app --reload
@@ -49,7 +54,7 @@ python -m venv .venv
 Docker Compose 會把 `./data` mount 進 container，所以 SQLite 會保存在:
 
 ```text
-D:\Projects\traffic-incident-api\data\incidents.db
+<repo-root>\data\incidents.db
 ```
 
 repo 也包含展示用 demo database snapshot:
@@ -62,7 +67,7 @@ demo-data/incidents-demo.db
 
 ## YOLO 寫入 API / DB Demo
 
-public GitHub release 不包含 dataset 派生的 MP4 clip、YOLO snapshot、或訓練完成的 `.pt` weight。若要執行這個 demo，請使用本機 `D:\Datasets\traffic-incident` 底下的 artifact，或用 `yolo/` 內的 script 重新生成。packaged demo database 仍保留 2 筆已驗證的 YOLO 生成 record，因此即使不再散布原始媒體或權重，面試官也能確認 API/UI 行為。
+public GitHub release 不包含 dataset 派生的 MP4 clip、YOLO snapshot、或訓練完成的 `.pt` weight。若要執行這個 demo，請使用本機 `<DATA_ROOT>` 底下的 artifact，或用 `yolo/` 內的 script 重新生成。packaged demo database 仍保留 2 筆已驗證的 YOLO 生成 record，因此即使不再散布原始媒體或權重，面試官也能確認 API/UI 行為。
 
 啟動 API 並停止 seed:
 
@@ -76,14 +81,14 @@ docker compose stop seed
 ```powershell
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 `
   --base-url http://127.0.0.1:8000 `
   --camera-id CAM-YOLO-VIDEO-RDD `
   --confidence 0.25 `
   --frame-stride 1 `
   --cooldown-seconds 5 `
-  --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4
+  --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4
 ```
 
 查詢寫入結果:

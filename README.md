@@ -29,7 +29,7 @@ This repository implements the back-end assignment described in the provided eva
 - Random event seed script for demo data
 - Dockerfile and `docker-compose.yml`
 - Pytest coverage for key API flows
-- YOLO training/download/preparation scripts kept on `D:` for low-`C:`-space environments
+- YOLO training/download/preparation scripts that write large ML assets to an external data directory configured by `TRAFFIC_DATASETS_ROOT`
 - Public-safe demo assets in the repository: training summaries and a demo SQLite database snapshot. Dataset-derived videos, snapshots, and trained `.pt` weights are intentionally excluded from the public repo.
 - AI workflow log in `docs/ai-log.md`
 
@@ -175,9 +175,11 @@ Detailed implementation status and manual verification steps are in `docs/implem
 
 ## YOLO training version
 
-The project now includes a training-oriented `yolo/` pipeline that keeps datasets, caches, checkpoints, and snapshots on `D:` by default.
+The project now includes a training-oriented `yolo/` pipeline. Large datasets, caches, checkpoints, and snapshots are written outside the repository by default, under `../traffic-incident-data`, or to the path configured by `TRAFFIC_DATASETS_ROOT`.
 
-### 1. Install the ML stack on `D:`
+In the examples below, `<DATA_ROOT>` refers to that external ML data directory.
+
+### 1. Install the ML stack
 
 ```powershell
 .\scripts\setup_training_env.ps1
@@ -218,20 +220,20 @@ Default dataset targets:
 ### 5. Feed trained detections back into the API
 
 ```powershell
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights D:\Datasets\traffic-incident\runs\mio-localization\<run>\weights\best.pt --source D:\path\to\highway.mp4
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights D:\Datasets\traffic-incident\runs\rdd2022\<run>\weights\best.pt --source D:\path\to\road.mp4
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights <DATA_ROOT>\runs\mio-localization\<run>\weights\best.pt --source <path-to-highway-video>.mp4
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\<run>\weights\best.pt --source <path-to-road-video>.mp4
 ```
 
 `vehicle` mode turns tracked detections into `STOPPED_VEHICLE` and `CONGESTION` events.  
 `damage` mode maps road-surface anomalies into `DEBRIS` events.
-Use `--annotated-output D:\path\to\output.boxes.mp4` to export a video with YOLO boxes. Use `--dry-run` when you want to inspect detection quality without writing events to the API.
+Use `--annotated-output <output-video>.boxes.mp4` to export a video with YOLO boxes. Use `--dry-run` when you want to inspect detection quality without writing events to the API.
 
-Short local test clips can be generated under `D:\Datasets\traffic-incident\yolovideotest`. For public GitHub release, dataset-derived MP4 files, snapshots, and trained `.pt` weights are not committed. The RDD demo clip was verified locally without `--dry-run`; it inserted two `DEBRIS` events through `POST /events` using `camera_id=CAM-YOLO-VIDEO-RDD`.
+Short local test clips can be generated under `<DATA_ROOT>\yolovideotest`. For public GitHub release, dataset-derived MP4 files, snapshots, and trained `.pt` weights are not committed. The RDD demo clip was verified locally without `--dry-run`; it inserted two `DEBRIS` events through `POST /events` using `camera_id=CAM-YOLO-VIDEO-RDD`.
 
 Local dry-run demo example after regenerating or restoring local weights and test clips:
 
 ```powershell
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4 --dry-run
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4 --dry-run
 ```
 
 ### 6. YOLO-to-API-to-database demo
@@ -241,7 +243,7 @@ This is the shortest reviewer-friendly path for proving that YOLO detections can
 1. Start the API:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose stop seed
 ```
@@ -251,15 +253,15 @@ docker compose stop seed
 ```powershell
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 `
   --base-url http://127.0.0.1:8000 `
   --camera-id CAM-YOLO-VIDEO-RDD `
   --highway-id E1 `
   --confidence 0.25 `
   --frame-stride 1 `
   --cooldown-seconds 5 `
-  --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4
+  --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4
 ```
 
 Expected terminal output includes:

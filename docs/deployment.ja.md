@@ -2,10 +2,15 @@
 
 このプロジェクトは面接課題の demo service として作っています。review 用の推奨実行方法は、ローカル PC 上の Docker Compose です。
 
+表記:
+
+- `<repo-root>` は reviewer がこの repository を clone した directory です。
+- `<DATA_ROOT>` は repository 外の ML data directory です。default は `../traffic-incident-data` で、`TRAFFIC_DATASETS_ROOT` で変更できます。
+
 ## 推奨 demo deployment
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose ps
 ```
@@ -36,7 +41,7 @@ docker compose down
 ## Python でのローカル実行
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 python -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 .\.venv\Scripts\uvicorn app.main:app --reload
@@ -49,7 +54,7 @@ python -m venv .venv
 Docker Compose は `./data` を container に mount するため、SQLite は以下に保存されます。
 
 ```text
-D:\Projects\traffic-incident-api\data\incidents.db
+<repo-root>\data\incidents.db
 ```
 
 提出確認用の demo database snapshot も repo に含めています。
@@ -62,7 +67,7 @@ demo-data/incidents-demo.db
 
 ## YOLO から API / DB へ書き込む demo
 
-public GitHub release では、dataset 由来の MP4 clip、YOLO snapshot、学習済み `.pt` weight は含めません。この demo を実行する場合は、ローカルの `D:\Datasets\traffic-incident` 配下にある artifact を使うか、`yolo/` 配下の script で再生成します。packaged demo database には確認済みの YOLO 由来 record が 2 件残っているため、元 media や weight を再配布しなくても API/UI の挙動は確認できます。
+public GitHub release では、dataset 由来の MP4 clip、YOLO snapshot、学習済み `.pt` weight は含めません。この demo を実行する場合は、ローカルの `<DATA_ROOT>` 配下にある artifact を使うか、`yolo/` 配下の script で再生成します。packaged demo database には確認済みの YOLO 由来 record が 2 件残っているため、元 media や weight を再配布しなくても API/UI の挙動は確認できます。
 
 API を起動し、seed を止めます。
 
@@ -76,14 +81,14 @@ RDD clip を `--dry-run` なしで実行します。
 ```powershell
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 `
   --base-url http://127.0.0.1:8000 `
   --camera-id CAM-YOLO-VIDEO-RDD `
   --confidence 0.25 `
   --frame-stride 1 `
   --cooldown-seconds 5 `
-  --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4
+  --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4
 ```
 
 書き込まれた record を確認します。

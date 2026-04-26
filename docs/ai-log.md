@@ -7,9 +7,9 @@ The raw Claude/Gemini conversation source is included as `docs/ai-conversation-s
 
 ## Inputs referenced
 
-- `C:\Users\85260\Downloads\Back-End_Candidate_Evaluation.pdf`
-- `C:\Users\85260\Downloads\requirements_spec.md.pdf`
-- `C:\Users\85260\Downloads\Claude_geminiconversation.md.pdf`
+- `provided evaluation PDF`
+- `provided requirements PDF`
+- `provided Claude/Gemini conversation PDF`
 
 ## Workflow summary
 
@@ -25,13 +25,13 @@ The raw Claude/Gemini conversation source is included as `docs/ai-conversation-s
    - Build the core API and SSE flow first
    - Add a lightweight dashboard to demonstrate real-time behavior
    - Add test coverage, local run instructions, and Docker support
-4. Implemented the project on local disk in `D:\Projects\traffic-incident-api`
+4. Implemented the project on local disk in `<repo-root>`
 5. Ran local verification and fixed issues discovered during test execution
 6. Extended the project into a training-enabled version:
    - Added downloaders for official MIO-TCD, RDD2022, and TRANCOS archives
    - Added dataset conversion scripts for MIO-TCD and RDD2022
    - Added YOLO training commands and video-to-API inference utilities
-   - Routed all large caches, datasets, runs, and snapshots to `D:\Datasets\traffic-incident`
+   - Routed all large caches, datasets, runs, and snapshots to `<DATA_ROOT>`
    - Verified a non-dry-run RDD2022 video inference path that inserted two `DEBRIS` events through the API
 
 ## Key design decisions
@@ -42,7 +42,7 @@ The raw Claude/Gemini conversation source is included as `docs/ai-conversation-s
 - Returned a unified `{ success, data }` envelope and `{ success, error }` for failures.
 - Chose MIO-TCD as the trainable vehicle dataset because it is official and directly suitable for stopped-vehicle and congestion heuristics.
 - Chose RDD2022 as the openly available road-hazard proxy dataset and mapped its outputs to the platform's `DEBRIS` event type.
-- Kept all ML-heavy assets on `D:` to respect the limited free space on `C:`.
+- Kept ML-heavy assets outside the repository through `TRAFFIC_DATASETS_ROOT`, so reviewers can choose any suitable disk or workspace.
 
 ## Remaining work not included
 

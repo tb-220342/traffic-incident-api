@@ -28,7 +28,7 @@
 - デモ用のランダムイベント seed script
 - `Dockerfile` と `docker-compose.yml`
 - 主要 API フローの pytest
-- `D:` 配下を使う YOLO 学習 / 推論パイプライン
+- `TRAFFIC_DATASETS_ROOT` で指定した外部 data directory を使う YOLO 学習 / 推論パイプライン
 - `docs/ai-log.md` の AI 利用ログ
 
 ## 技術選定
@@ -62,7 +62,7 @@
 ## ローカル実行
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 python -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 .\.venv\Scripts\uvicorn app.main:app --reload
@@ -82,7 +82,7 @@ python -m venv .venv
 ## Docker 実行
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 ```
 
@@ -100,7 +100,7 @@ docker compose stop seed
 ## テスト
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\pytest
 ```
 
@@ -116,7 +116,8 @@ cd D:\Projects\traffic-incident-api
 
 ## YOLO 連携
 
-YOLO 関連のデータセット、キャッシュ、学習結果、スナップショットは `D:\Datasets\traffic-incident` に置く前提です。
+YOLO 関連のデータセット、キャッシュ、学習結果、スナップショットは `<DATA_ROOT>` に置く前提です。
+`<DATA_ROOT>` は repository 外の ML data directory で、default は `../traffic-incident-data`、または `TRAFFIC_DATASETS_ROOT` で指定した path です。
 public GitHub release では、dataset 由来の MP4、snapshot、trained `.pt` weight は含めていません。`model-artifacts/` には training summary のみを残しています。RDD demo clip は local では `--dry-run` なしで確認済みで、`camera_id=CAM-YOLO-VIDEO-RDD` から `POST /events` 経由で `DEBRIS` event が 2 件保存されます。
 
 ```powershell
@@ -131,8 +132,8 @@ public GitHub release では、dataset 由来の MP4、snapshot、trained `.pt` 
 動画推論から API にイベントを送る例:
 
 ```powershell
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights D:\Datasets\traffic-incident\runs\mio-localization\<run>\weights\best.pt --source D:\path\to\highway.mp4
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights D:\Datasets\traffic-incident\runs\rdd2022\<run>\weights\best.pt --source D:\path\to\road.mp4
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode vehicle --weights <DATA_ROOT>\runs\mio-localization\<run>\weights\best.pt --source <path-to-highway-video>.mp4
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\<run>\weights\best.pt --source <path-to-road-video>.mp4
 ```
 
 提出用 demo を最短で確認する場合:
@@ -140,7 +141,7 @@ public GitHub release では、dataset 由来の MP4、snapshot、trained `.pt` 
 ```powershell
 docker compose up -d --build
 docker compose stop seed
-.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt --source D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.mp4 --base-url http://127.0.0.1:8000 --camera-id CAM-YOLO-VIDEO-RDD --confidence 0.25 --frame-stride 1 --cooldown-seconds 5 --annotated-output D:\Datasets\traffic-incident\yolovideotest\rdd_damage_short.boxes.mp4
+.\.venv\Scripts\python.exe -m yolo.infer_video --mode damage --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt --source <DATA_ROOT>\yolovideotest\rdd_damage_short.mp4 --base-url http://127.0.0.1:8000 --camera-id CAM-YOLO-VIDEO-RDD --confidence 0.25 --frame-stride 1 --cooldown-seconds 5 --annotated-output <DATA_ROOT>\yolovideotest\rdd_damage_short.boxes.mp4
 Invoke-RestMethod 'http://127.0.0.1:8000/events?camera_id=CAM-YOLO-VIDEO-RDD&sort_by=detected_at&order=desc&limit=10&offset=0' | ConvertTo-Json -Depth 12
 ```
 

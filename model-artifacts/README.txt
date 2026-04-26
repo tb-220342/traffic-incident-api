@@ -12,6 +12,6 @@ Not included:
 - cache and snapshot files
 
 The complete local training workspace remains under:
-D:\Datasets\traffic-incident
+<DATA_ROOT>
 
 See docs/submission-assets.md, docs/public-release-notes.md, and their Japanese/Chinese versions for data-source attribution and public-release notes.

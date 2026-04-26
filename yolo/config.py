@@ -4,7 +4,10 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-DATASETS_ROOT = Path(os.environ.get("TRAFFIC_DATASETS_ROOT", r"D:\Datasets\traffic-incident"))
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_DATASETS_ROOT = PROJECT_ROOT.parent / "traffic-incident-data"
+
+DATASETS_ROOT = Path(os.environ.get("TRAFFIC_DATASETS_ROOT", str(DEFAULT_DATASETS_ROOT)))
 CACHE_ROOT = Path(os.environ.get("TRAFFIC_CACHE_ROOT", str(DATASETS_ROOT / "cache")))
 RUNS_ROOT = Path(os.environ.get("TRAFFIC_RUNS_ROOT", str(DATASETS_ROOT / "runs")))
 

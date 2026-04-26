@@ -53,9 +53,9 @@ Last updated: 2026-04-26 (Asia/Tokyo)
 | Item | Status | Notes |
 | --- | --- | --- |
 | `infer_video.py` posts incidents to the API | Complete | Verified on 2026-04-26 with `rdd_damage_short.mp4`; two `DEBRIS` events were inserted from `CAM-YOLO-VIDEO-RDD` |
-| Trained weights retained locally | Complete | MIO, RDD2022, and TRANCOS runs are kept under `D:\Datasets\traffic-incident\runs`; public repo keeps only training summaries in `model-artifacts/`, not `.pt` weights |
-| D-drive storage for ML assets | Complete | Datasets, cache, runs, and snapshots default to `D:` |
-| End-to-end video quality check | Demo-ready / manual review | Two short test clips and YOLO box outputs are kept locally under `D:\Datasets\traffic-incident\yolovideotest`; the public repo excludes dataset-derived MP4/snapshot files but retains the verified API events in the demo DB |
+| Trained weights retained locally | Complete | MIO, RDD2022, and TRANCOS runs are kept under `<DATA_ROOT>\runs`; public repo keeps only training summaries in `model-artifacts/`, not `.pt` weights |
+| External storage for ML assets | Complete | Datasets, cache, runs, and snapshots default to `../traffic-incident-data` and can be overridden with `TRAFFIC_DATASETS_ROOT` |
+| End-to-end video quality check | Demo-ready / manual review | Two short test clips and YOLO box outputs are kept locally under `<DATA_ROOT>\yolovideotest`; the public repo excludes dataset-derived MP4/snapshot files but retains the verified API events in the demo DB |
 
 ## Remaining Manual Checks
 
@@ -76,7 +76,7 @@ Last updated: 2026-04-26 (Asia/Tokyo)
 ### Docker
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 docker compose up -d --build
 docker compose ps
 ```
@@ -101,14 +101,14 @@ docker compose down
 ### Local API
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\uvicorn app.main:app --reload
 ```
 
 ### Tests
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\pytest
 ```
 
@@ -165,21 +165,21 @@ Expected event names:
 Vehicle / stopped-vehicle / congestion:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode vehicle `
-  --weights D:\Datasets\traffic-incident\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
-  --source D:\path\to\highway.mp4 `
+  --weights <DATA_ROOT>\runs\mio-localization\mio-stage2-20260421-234643\weights\best.pt `
+  --source <path-to-highway-video>.mp4 `
   --base-url http://127.0.0.1:8000
 ```
 
 Road anomaly / debris:
 
 ```powershell
-cd D:\Projects\traffic-incident-api
+cd <repo-root>
 .\.venv\Scripts\python.exe -m yolo.infer_video `
   --mode damage `
-  --weights D:\Datasets\traffic-incident\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
-  --source D:\path\to\road.mp4 `
+  --weights <DATA_ROOT>\runs\rdd2022\rdd-stage2-20260421-234643\weights\best.pt `
+  --source <path-to-road-video>.mp4 `
   --base-url http://127.0.0.1:8000
 ```
