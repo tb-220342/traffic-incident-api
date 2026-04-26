@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: sqlite:///./data/incidents.db
+    volumes:
+      - ./data:/app/data
+
+  seed:
+    build: .
+    command: python scripts/seed.py --base-url http://api:8000
+    depends_on:
+      - api

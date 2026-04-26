@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traffic Incident Monitoring Dashboard</title>
+  <style>
+    :root {
+      --bg: #08131f;
+      --bg-elevated: rgba(13, 29, 46, 0.86);
+      --bg-soft: rgba(19, 44, 69, 0.72);
+      --panel-border: rgba(140, 190, 220, 0.18);
+      --text: #eef6fb;
+      --text-muted: #9fb7cc;
+      --accent: #5fd0ff;
+      --accent-strong: #ff9b38;
+      --critical: #ff5c6c;
+      --high: #ff9b38;
+      --medium: #f4d35e;
+      --low: #5ad8a6;
+      --new: #5fd0ff;
+      --acknowledged: #f4d35e;
+      --dispatched: #ff9b38;
+      --resolved: #5ad8a6;
+      --shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
+      --font: "IBM Plex Sans", "Segoe UI", "Noto Sans JP", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top left, rgba(95, 208, 255, 0.25), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 155, 56, 0.16), transparent 24%),
+        linear-gradient(160deg, #07111b 0%, #0d1d2e 45%, #10263a 100%);
+    }
+
+    .shell {
+      width: min(1200px, calc(100vw - 32px));
+      margin: 24px auto 48px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero,
+    .filters,
+    .feed {
+      background: var(--bg-elevated);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero {
+      padding: 28px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: start;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .headline {
+      max-width: 700px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.02;
+      font-weight: 700;
+    }
+
+    .headline p,
+    .meta,
+    .empty,
+    .subtle {
+      color: var(--text-muted);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .summary-note {
+      margin: -4px 0 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .summary-card {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(12, 26, 41, 0.95), rgba(10, 22, 35, 0.8));
+      border-radius: 16px;
+      border: 1px solid rgba(140, 190, 220, 0.12);
+    }
+
+    .summary-card span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .summary-card strong {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .summary-card strong.compact {
+      display: grid;
+      gap: 4px;
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(95, 208, 255, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(95, 208, 255, 0.18);
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: currentColor;
+      box-shadow: 0 0 16px currentColor;
+    }
+
+    .language-switch {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(8, 19, 31, 0.72);
+      border: 1px solid rgba(140, 190, 220, 0.18);
+    }
+
+    .lang-button {
+      min-width: 44px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: var(--text-muted);
+      background: transparent;
+      border: 0;
+      font-size: 0.85rem;
+    }
+
+    .lang-button[aria-pressed="true"] {
+      color: var(--accent);
+      background: rgba(95, 208, 255, 0.14);
+    }
+
+    .filters,
+    .feed {
+      padding: 22px;
+    }
+
+    .section-header {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 1.18rem;
+    }
+
+    .filters-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      min-width: 0;
+    }
+
+    input,
+    select,
+    button {
+      border-radius: 14px;
+      border: 1px solid rgba(140, 190, 220, 0.18);
+      background: rgba(8, 19, 31, 0.95);
+      color: var(--text);
+      font: inherit;
+    }
+
+    input,
+    select {
+      padding: 12px 14px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    button {
+      cursor: pointer;
+      padding: 12px 16px;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      min-width: 0;
+      white-space: normal;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(95, 208, 255, 0.42);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(95, 208, 255, 0.26), rgba(95, 208, 255, 0.08));
+      color: var(--accent);
+    }
+
+    .btn-secondary {
+      background: rgba(19, 44, 69, 0.5);
+      color: var(--text);
+    }
+
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+
+    .pagination-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .page-size-control {
+      min-width: 140px;
+    }
+
+    .page-jump-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(140, 190, 220, 0.14);
+      border-radius: 18px;
+      background: rgba(8, 19, 31, 0.28);
+    }
+
+    .page-jump-control {
+      width: 96px;
+    }
+
+    .page-jump-control span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    .page-info {
+      align-self: center;
+      min-width: 180px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .page-jump-control input {
+      min-height: 44px;
+      text-align: center;
+    }
+
+    .advanced-filters {
+      grid-column: 1 / -1;
+      padding: 14px;
+      border: 1px solid rgba(140, 190, 220, 0.14);
+      border-radius: 16px;
+      background: rgba(8, 19, 31, 0.28);
+    }
+
+    .advanced-filters summary {
+      cursor: pointer;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .advanced-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      align-items: end;
+    }
+
+    .feed-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .incident-card {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(13, 29, 46, 0.98), rgba(8, 19, 31, 0.9));
+      border: 1px solid rgba(140, 190, 220, 0.12);
+    }
+
+    .incident-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: var(--severity-color, var(--accent));
+    }
+
+    .incident-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: start;
+    }
+
+    .incident-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      border: 1px solid rgba(140, 190, 220, 0.16);
+      background: rgba(19, 44, 69, 0.52);
+    }
+
+    .severity-LOW { color: var(--low); }
+    .severity-MEDIUM { color: var(--medium); }
+    .severity-HIGH { color: var(--high); }
+    .severity-CRITICAL { color: var(--critical); }
+
+    .status-NEW { color: var(--new); }
+    .status-ACKNOWLEDGED { color: var(--acknowledged); }
+    .status-DISPATCHED { color: var(--dispatched); }
+    .status-RESOLVED { color: var(--resolved); }
+
+    .incident-title {
+      margin: 0;
+      font-size: 1.15rem;
+      line-height: 1.3;
+    }
+
+    .incident-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px 16px;
+      font-size: 0.95rem;
+    }
+
+    .incident-meta div {
+      display: grid;
+      gap: 4px;
+    }
+
+    .incident-meta span {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .incident-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .incident-message {
+      margin-top: 8px;
+      max-width: 760px;
+    }
+
+    .incident-actions button[disabled] {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+    }
+
+    .helpable {
+      cursor: help;
+      text-decoration: underline dotted rgba(159, 183, 204, 0.5);
+      text-underline-offset: 4px;
+    }
+
+    .empty {
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px dashed rgba(140, 190, 220, 0.18);
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: min(100vw - 20px, 100%);
+      }
+
+      .hero,
+      .filters,
+      .feed {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="headline">
+          <div class="eyebrow" data-i18n="eyebrow">Traffic Incident Operations</div>
+          <h1 data-i18n="headline">Live highway events with real-time dispatch visibility.</h1>
+          <p data-i18n="intro">
+            AI detections are ingested by the API, broadcast over SSE, and surfaced here for
+            operations center staff with filterable incident details and status updates.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <div class="language-switch" aria-label="Language selector">
+            <button type="button" class="lang-button" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" class="lang-button" data-lang="ja" aria-pressed="false">日本語</button>
+            <button type="button" class="lang-button" data-lang="zh" aria-pressed="false">中文</button>
+          </div>
+          <div class="status-pill" id="streamStatus">
+            <span class="status-dot"></span>
+            <span data-i18n="connecting">Connecting to live stream...</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card">
+          <span data-i18n="totalLoaded">Displayed / Matching</span>
+          <strong id="totalCount">0</strong>
+        </article>
+        <article class="summary-card">
+          <span data-i18n="criticalIncidents">Critical Incidents</span>
+          <strong id="criticalCount">0</strong>
+        </article>
+        <article class="summary-card">
+          <span data-i18n="avgDelay">Average Detection Delay</span>
+          <strong id="avgDelay">0s</strong>
+        </article>
+        <article class="summary-card">
+          <span data-i18n="lastRefresh">Last Refresh</span>
+          <strong id="lastRefresh" class="compact">--</strong>
+        </article>
+      </div>
+      <p class="summary-note" data-i18n="kpiScope">KPIs are calculated from the currently displayed search results.</p>
+    </section>
+
+    <section class="filters">
+      <div class="section-header">
+        <h2 data-i18n="filterTitle">Search incident records</h2>
+        <div class="subtle" data-i18n="filterSubtitle">
+          These controls only search and narrow the existing incident list. They do not create events or change stored incident data.
+        </div>
+      </div>
+      <form class="filters-form" id="filtersForm">
+        <label>
+          <span data-i18n="severity">Severity</span>
+          <select id="severityInput" name="severity">
+            <option value="" data-i18n="all">All</option>
+            <option value="CRITICAL">CRITICAL</option>
+            <option value="HIGH">HIGH</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="LOW">LOW</option>
+          </select>
+        </label>
+        <label>
+          <span data-i18n="eventType">Event Type</span>
+          <select id="eventTypeInput" name="event_type">
+            <option value="" data-i18n="all">All</option>
+            <option value="STOPPED_VEHICLE">STOPPED_VEHICLE</option>
+            <option value="DEBRIS">DEBRIS</option>
+            <option value="CONGESTION">CONGESTION</option>
+            <option value="WRONG_WAY">WRONG_WAY</option>
+            <option value="PEDESTRIAN">PEDESTRIAN</option>
+            <option value="UNKNOWN">UNKNOWN</option>
+          </select>
+        </label>
+        <label>
+          <span data-i18n="status">Status</span>
+          <select id="statusInput" name="status">
+            <option value="" data-i18n="all">All</option>
+            <option value="NEW">NEW</option>
+            <option value="ACKNOWLEDGED">ACKNOWLEDGED</option>
+            <option value="DISPATCHED">DISPATCHED</option>
+            <option value="RESOLVED">RESOLVED</option>
+          </select>
+        </label>
+        <label>
+          <span data-i18n="sortBy">Sort By</span>
+          <select id="sortByInput" name="sort_by">
+            <option value="detected_at" data-i18n="detectedTime">Detected Time</option>
+            <option value="ingested_at" data-i18n="receivedTime">Received Time</option>
+            <option value="updated_at" data-i18n="updatedTime">Updated Time</option>
+            <option value="severity" data-i18n="severity">Severity</option>
+            <option value="confidence" data-i18n="confidence">Confidence</option>
+            <option value="detection_delay" data-i18n="detectionDelay">Detection Delay</option>
+          </select>
+        </label>
+        <label>
+          <span data-i18n="order">Order</span>
+          <select id="orderInput" name="order">
+            <option value="desc" data-i18n="descending">Descending</option>
+            <option value="asc" data-i18n="ascending">Ascending</option>
+          </select>
+        </label>
+        <details class="advanced-filters" open>
+          <summary data-i18n="advancedFilters">Advanced search fields</summary>
+          <div class="advanced-grid">
+            <label>
+              <span data-i18n="cameraSearch">Camera / Location</span>
+              <input id="cameraQueryInput" name="camera_query" type="search" placeholder="CAM, E1, K12+300, lane" />
+            </label>
+            <label>
+              <span data-i18n="cameraId">Camera ID</span>
+              <input id="cameraIdInput" name="camera_id" type="search" list="cameraIdOptions" placeholder="CAM-001" />
+              <datalist id="cameraIdOptions"></datalist>
+            </label>
+            <label>
+              <span data-i18n="sourceEventId">Source Event ID</span>
+              <input id="sourceEventIdInput" name="source_event_id" type="search" placeholder="source event id" />
+            </label>
+            <label>
+              <span data-i18n="detectedFrom">Detected From</span>
+              <input id="detectedFromInput" name="detected_from" type="datetime-local" />
+            </label>
+            <label>
+              <span data-i18n="detectedTo">Detected To</span>
+              <input id="detectedToInput" name="detected_to" type="datetime-local" />
+            </label>
+            <label>
+              <span data-i18n="ingestedFrom">Received From</span>
+              <input id="ingestedFromInput" name="ingested_from" type="datetime-local" />
+            </label>
+            <label>
+              <span data-i18n="ingestedTo">Received To</span>
+              <input id="ingestedToInput" name="ingested_to" type="datetime-local" />
+            </label>
+            <label>
+              <span data-i18n="minDelay">Min Delay (s)</span>
+              <input id="minDelayInput" name="min_delay_seconds" type="number" min="0" step="1" placeholder="0" />
+            </label>
+            <label>
+              <span data-i18n="maxDelay">Max Delay (s)</span>
+              <input id="maxDelayInput" name="max_delay_seconds" type="number" min="0" step="1" placeholder="60" />
+            </label>
+            <label>
+              <span data-i18n="minConfidence">Min Confidence (%)</span>
+              <input id="minConfidenceInput" name="min_confidence" type="number" min="0" max="100" step="1" placeholder="70" />
+            </label>
+            <label>
+              <span data-i18n="maxConfidence">Max Confidence (%)</span>
+              <input id="maxConfidenceInput" name="max_confidence" type="number" min="0" max="100" step="1" placeholder="100" />
+            </label>
+          </div>
+        </details>
+        <button type="submit" class="btn-primary" data-i18n="applyFilters">Search / Filter</button>
+        <button type="button" class="btn-secondary" id="resetButton" data-i18n="reset">Reset</button>
+      </form>
+    </section>
+
+    <section class="feed">
+      <div class="feed-header">
+        <div>
+          <h2 style="margin: 0 0 8px;" data-i18n="incidentFeed">Search Results</h2>
+          <div class="subtle" data-i18n="feedSubtitle">The list is read-only until you use a status button inside an incident card.</div>
+        </div>
+        <div class="pagination-controls" aria-label="Pagination">
+          <label class="page-size-control">
+            <span data-i18n="rowsPerPage">Rows per page</span>
+            <select id="pageSizeInput" name="page_size">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+          <button type="button" class="btn-secondary" id="prevPageButton" data-i18n="previousPage">Previous</button>
+          <div class="page-jump-group">
+            <label class="page-jump-control">
+              <span data-i18n="jumpToPage">Jump to page</span>
+              <input id="pageJumpInput" type="number" min="1" value="1" aria-label="Jump to page" />
+            </label>
+            <button type="button" class="btn-secondary" id="jumpPageButton" data-i18n="goToPage">Go</button>
+          </div>
+          <div class="page-info" id="pageInfo">Page 0 / 0</div>
+          <button type="button" class="btn-secondary" id="nextPageButton" data-i18n="nextPage">Next</button>
+        </div>
+      </div>
+      <div id="incidentList" class="feed-grid"></div>
+      <div id="emptyState" class="empty" hidden data-i18n="noIncidents">No incidents match the current filter.</div>
+    </section>
+  </main>
+
+  <script>
+    const incidentList = document.getElementById("incidentList");
+    const emptyState = document.getElementById("emptyState");
+    const filtersForm = document.getElementById("filtersForm");
+    const resetButton = document.getElementById("resetButton");
+    const streamStatus = document.getElementById("streamStatus");
+    const totalCount = document.getElementById("totalCount");
+    const criticalCount = document.getElementById("criticalCount");
+    const avgDelay = document.getElementById("avgDelay");
+    const lastRefresh = document.getElementById("lastRefresh");
+    const langButtons = document.querySelectorAll(".lang-button");
+    const pageSizeInput = document.getElementById("pageSizeInput");
+    const prevPageButton = document.getElementById("prevPageButton");
+    const nextPageButton = document.getElementById("nextPageButton");
+    const pageJumpInput = document.getElementById("pageJumpInput");
+    const jumpPageButton = document.getElementById("jumpPageButton");
+    const pageInfo = document.getElementById("pageInfo");
+
+    const renderedIds = new Set();
+    const incidents = new Map();
+    let eventSource = null;
+    let streamState = "connecting";
+    let currentLang = localStorage.getItem("trafficDashboardLang") || "en";
+    let currentFilters = {
+      severity: "",
+      event_type: "",
+      status: "",
+      camera_query: "",
+      camera_id: "",
+      source_event_id: "",
+      detected_from: "",
+      detected_to: "",
+      ingested_from: "",
+      ingested_to: "",
+      min_delay_seconds: "",
+      max_delay_seconds: "",
+      min_confidence: "",
+      max_confidence: "",
+      sort_by: "detected_at",
+      order: "desc",
+    };
+    let currentListMeta = {
+      total: 0,
+      limit: 50,
+      offset: 0,
+      critical_total: 0,
+      avg_delay_seconds_total: null,
+      latest_updated_at: null,
+    };
+    let currentPagination = {
+      limit: 50,
+      offset: 0,
+    };
+    let lastSearchAt = null;
+
+    const translations = {
+      en: {
+        htmlLang: "en",
+        locale: "en-US",
+        documentTitle: "Traffic Incident Monitoring Dashboard",
+        eyebrow: "Traffic Incident Operations",
+        headline: "Live highway events with real-time dispatch visibility.",
+        intro: "AI detections are ingested by the API, broadcast over SSE, and surfaced here for operations center staff with filterable incident details and status updates.",
+        connecting: "Connecting to live stream...",
+        liveConnected: "Live stream connected",
+        reconnecting: "Reconnecting to live stream...",
+        unableLoad: "Unable to load incidents",
+        totalLoaded: "Displayed / Matching",
+        criticalIncidents: "Critical (Page / Matching)",
+        avgDelay: "Avg Delay (Page / Matching)",
+        lastRefresh: "Search / DB Update",
+        kpiScope: "KPI cards show page / matching totals. Database update time is the latest updated_at in the current search result set.",
+        searchTime: "Search",
+        dbChangeTime: "DB update",
+        filterTitle: "Search incident records",
+        filterSubtitle: "These controls only search and narrow the existing incident list. They do not create events or change stored incident data.",
+        severity: "Severity",
+        eventType: "Event Type",
+        status: "Status",
+        sortBy: "Sort By",
+        order: "Order",
+        all: "All",
+        detectedTime: "Detected Time",
+        receivedTime: "Received Time",
+        updatedTime: "Updated Time",
+        descending: "Descending",
+        ascending: "Ascending",
+        applyFilters: "Search / Filter",
+        reset: "Reset",
+        advancedFilters: "Advanced search fields",
+        cameraSearch: "Camera / Location",
+        detectedFrom: "Detected From",
+        detectedTo: "Detected To",
+        ingestedFrom: "Received From",
+        ingestedTo: "Received To",
+        minDelay: "Min Delay (s)",
+        maxDelay: "Max Delay (s)",
+        minConfidence: "Min Confidence (%)",
+        maxConfidence: "Max Confidence (%)",
+        incidentFeed: "Search Results",
+        feedSubtitle: "The list is read-only until you use a status button inside an incident card. New live detections appear here only when they match the current search.",
+        rowsPerPage: "Rows per page",
+        previousPage: "Previous",
+        nextPage: "Next",
+        jumpToPage: "Jump to page",
+        goToPage: "Go",
+        pageInfo: "Page {page} / {pages} · {start}-{end} of {total}",
+        noPageInfo: "No results",
+        noIncidents: "No incidents match the current filter.",
+        detectedAt: "Detected At",
+        ingestedAt: "Ingested At",
+        detectionDelay: "Detection Delay",
+        location: "Location",
+        confidence: "Confidence",
+        coordinates: "Coordinates",
+        sourceEventId: "Source Event ID",
+        cameraId: "Camera ID",
+        statusNote: "Status Note",
+        detectionMessage: "Detection message",
+        moveForward: "Move forward to",
+        moveBack: "Move back to",
+        resolved: "No later status",
+        beginningStatus: "No previous status",
+        camera: "Camera",
+        lane: "Lane",
+        notAvailable: "N/A",
+        failedStatusUpdate: "Failed to update status",
+        confirmStatusChange: "Change status from {from} to {to}? You can move it back later if this was a mistake.",
+        severityTooltip: "Severity shows operational priority: CRITICAL, HIGH, MEDIUM, or LOW.",
+        eventTypeTooltip: "Event type shows what the AI detected, such as debris, congestion, or a stopped vehicle.",
+        statusTooltip: "Status shows the current operator handling stage.",
+        detectedAtTooltip: "Time when the AI detector first observed the incident.",
+        ingestedAtTooltip: "Time when this API received and stored the incident.",
+        delayTooltip: "Difference between API ingestion time and AI detection time.",
+        locationTooltip: "Road location assembled from highway ID, road marker, and lane number.",
+        confidenceTooltip: "Detector confidence score for the event.",
+        coordinatesTooltip: "Latitude and longitude in decimal degrees when available.",
+        sourceEventIdTooltip: "Producer-side unique event ID used for deduplication and idempotency.",
+        cameraTooltip: "Full camera identifier provided by the detection source.",
+        severities: {
+          LOW: "LOW",
+          MEDIUM: "MEDIUM",
+          HIGH: "HIGH",
+          CRITICAL: "CRITICAL",
+        },
+        statuses: {
+          NEW: "NEW",
+          ACKNOWLEDGED: "ACKNOWLEDGED",
+          DISPATCHED: "DISPATCHED",
+          RESOLVED: "RESOLVED",
+        },
+        eventTypes: {
+          STOPPED_VEHICLE: "STOPPED_VEHICLE",
+          DEBRIS: "DEBRIS",
+          CONGESTION: "CONGESTION",
+          WRONG_WAY: "WRONG_WAY",
+          PEDESTRIAN: "PEDESTRIAN",
+          UNKNOWN: "UNKNOWN",
+        },
+      },
+      ja: {
+        htmlLang: "ja",
+        locale: "ja-JP",
+        documentTitle: "交通インシデント監視ダッシュボード",
+        eyebrow: "交通インシデント運用",
+        headline: "高速道路イベントをリアルタイムに把握。",
+        intro: "AI 検知イベントを API で受け取り、SSE で配信し、運用担当者が詳細確認とステータス更新を行えるように表示します。",
+        connecting: "ライブストリームに接続中...",
+        liveConnected: "ライブストリーム接続中",
+        reconnecting: "ライブストリームに再接続中...",
+        unableLoad: "インシデントを読み込めません",
+        totalLoaded: "表示 / 該当件数",
+        criticalIncidents: "重大（このページ / 該当総数）",
+        avgDelay: "平均検知遅延（このページ / 該当総数）",
+        lastRefresh: "検索 / DB 更新",
+        kpiScope: "KPI はこのページ / 該当総数で表示します。DB 更新時刻は現在の検索結果内の最新 updated_at です。",
+        searchTime: "検索",
+        dbChangeTime: "DB 更新",
+        filterTitle: "インシデント検索・絞り込み",
+        filterSubtitle: "ここは既存インシデントを検索・絞り込むだけの領域です。新規登録や既存データの変更は行いません。",
+        severity: "重要度",
+        eventType: "イベント種別",
+        status: "ステータス",
+        sortBy: "並び替え",
+        order: "順序",
+        all: "すべて",
+        detectedTime: "検知時刻",
+        receivedTime: "受信時刻",
+        updatedTime: "更新時刻",
+        descending: "降順",
+        ascending: "昇順",
+        applyFilters: "検索・絞り込み実行",
+        reset: "リセット",
+        advancedFilters: "詳細検索項目",
+        cameraSearch: "カメラ / 位置",
+        detectedFrom: "検知開始",
+        detectedTo: "検知終了",
+        ingestedFrom: "受信開始",
+        ingestedTo: "受信終了",
+        minDelay: "最小遅延（秒）",
+        maxDelay: "最大遅延（秒）",
+        minConfidence: "最小信頼度（%）",
+        maxConfidence: "最大信頼度（%）",
+        incidentFeed: "検索結果",
+        feedSubtitle: "一覧自体は確認用です。データを変更する操作は各カード内のステータスボタンだけです。現在の条件に一致する新規検知はリアルタイムに追加されます。",
+        rowsPerPage: "1ページ件数",
+        previousPage: "前へ",
+        nextPage: "次へ",
+        jumpToPage: "ページ指定",
+        goToPage: "移動",
+        pageInfo: "{page} / {pages} ページ · {start}-{end} / {total} 件",
+        noPageInfo: "該当なし",
+        noIncidents: "現在の条件に一致するインシデントはありません。",
+        detectedAt: "検知時刻",
+        ingestedAt: "受信時刻",
+        detectionDelay: "検知遅延",
+        location: "位置",
+        confidence: "信頼度",
+        coordinates: "座標",
+        sourceEventId: "ソースイベント ID",
+        cameraId: "カメラ ID",
+        statusNote: "対応メモ",
+        detectionMessage: "検知メッセージ",
+        moveForward: "次へ進める",
+        moveBack: "前へ戻す",
+        resolved: "次の状態なし",
+        beginningStatus: "前の状態なし",
+        camera: "カメラ",
+        lane: "車線",
+        notAvailable: "なし",
+        failedStatusUpdate: "ステータス更新に失敗しました",
+        confirmStatusChange: "ステータスを「{from}」から「{to}」へ変更しますか？誤操作の場合は後から戻せます。",
+        severityTooltip: "重要度は運用上の優先度です。重大、高、中、低で表します。",
+        eventTypeTooltip: "イベント種別は AI が検知した内容です。停止車両、落下物、渋滞などを表します。",
+        statusTooltip: "ステータスはオペレーター対応の現在段階です。",
+        detectedAtTooltip: "AI 検知システムが最初にインシデントを検知した時刻です。",
+        ingestedAtTooltip: "API がインシデントを受信し、保存した時刻です。",
+        delayTooltip: "API 受信時刻と AI 検知時刻の差分です。",
+        locationTooltip: "高速道路 ID、キロポストなどの道路位置、車線番号を組み合わせた位置情報です。",
+        confidenceTooltip: "検知モデルがこのイベントを検出した信頼度です。",
+        coordinatesTooltip: "利用可能な場合の緯度・経度です。十進表記です。",
+        sourceEventIdTooltip: "検知元が付与した一意なイベント ID です。重複排除と冪等処理に使います。",
+        cameraTooltip: "検知元から渡された完全なカメラ識別子です。",
+        severities: {
+          LOW: "低",
+          MEDIUM: "中",
+          HIGH: "高",
+          CRITICAL: "重大",
+        },
+        statuses: {
+          NEW: "新規",
+          ACKNOWLEDGED: "確認済み",
+          DISPATCHED: "出動中",
+          RESOLVED: "解決済み",
+        },
+        eventTypes: {
+          STOPPED_VEHICLE: "停止車両",
+          DEBRIS: "落下物",
+          CONGESTION: "渋滞",
+          WRONG_WAY: "逆走",
+          PEDESTRIAN: "歩行者",
+          UNKNOWN: "不明",
+        },
+      },
+      zh: {
+        htmlLang: "zh-Hant",
+        locale: "zh-Hant",
+        documentTitle: "交通事件監控儀表板",
+        eyebrow: "交通事件營運中心",
+        headline: "即時掌握高速公路事件與派遣狀態。",
+        intro: "AI 偵測事件會進入 API，透過 SSE 即時推送，並在這裡提供篩選、詳細資訊與狀態更新。",
+        connecting: "正在連接即時串流...",
+        liveConnected: "即時串流已連接",
+        reconnecting: "正在重新連接即時串流...",
+        unableLoad: "無法載入事件",
+        totalLoaded: "顯示 / 符合總數",
+        criticalIncidents: "重大（本頁 / 符合總數）",
+        avgDelay: "平均偵測延遲（本頁 / 符合總數）",
+        lastRefresh: "搜尋 / DB 更新",
+        kpiScope: "KPI 會顯示本頁 / 符合條件總數。DB 更新時間是目前搜尋結果中的最新 updated_at。",
+        searchTime: "搜尋",
+        dbChangeTime: "DB 更新",
+        filterTitle: "搜尋與篩選事件",
+        filterSubtitle: "這裡只會搜尋或縮小既有事件清單，不會新增事件，也不會修改既有資料。",
+        severity: "嚴重度",
+        eventType: "事件類型",
+        status: "狀態",
+        sortBy: "排序依據",
+        order: "排序方向",
+        all: "全部",
+        detectedTime: "偵測時間",
+        receivedTime: "接收時間",
+        updatedTime: "更新時間",
+        descending: "由新到舊",
+        ascending: "由舊到新",
+        applyFilters: "搜尋 / 執行篩選",
+        reset: "重設",
+        advancedFilters: "進階搜尋欄位",
+        cameraSearch: "攝像頭 / 位置",
+        detectedFrom: "偵測開始",
+        detectedTo: "偵測結束",
+        ingestedFrom: "接收開始",
+        ingestedTo: "接收結束",
+        minDelay: "最小延遲（秒）",
+        maxDelay: "最大延遲（秒）",
+        minConfidence: "最低信心（%）",
+        maxConfidence: "最高信心（%）",
+        incidentFeed: "搜尋結果",
+        feedSubtitle: "列表本身僅供檢視；只有每張卡片中的狀態按鈕會修改事件。符合目前條件的新偵測會即時加入。",
+        rowsPerPage: "每頁筆數",
+        previousPage: "上一頁",
+        nextPage: "下一頁",
+        jumpToPage: "指定頁數",
+        goToPage: "前往",
+        pageInfo: "第 {page} / {pages} 頁 · {start}-{end} / 共 {total} 筆",
+        noPageInfo: "沒有結果",
+        noIncidents: "沒有符合目前篩選條件的事件。",
+        detectedAt: "偵測時間",
+        ingestedAt: "接收時間",
+        detectionDelay: "偵測延遲",
+        location: "位置",
+        confidence: "信心分數",
+        coordinates: "座標",
+        sourceEventId: "來源事件 ID",
+        cameraId: "攝影機 ID",
+        statusNote: "處理備註",
+        detectionMessage: "偵測訊息",
+        moveForward: "前進到",
+        moveBack: "退回到",
+        resolved: "沒有下一個狀態",
+        beginningStatus: "沒有上一個狀態",
+        camera: "攝影機",
+        lane: "車道",
+        notAvailable: "無",
+        failedStatusUpdate: "狀態更新失敗",
+        confirmStatusChange: "要將狀態從「{from}」改為「{to}」嗎？如果是誤操作，之後可以再改回。",
+        severityTooltip: "嚴重度代表營運優先順序：重大、高、中、低。",
+        eventTypeTooltip: "事件類型代表 AI 偵測到的內容，例如停車、路面異物或壅塞。",
+        statusTooltip: "狀態代表操作人員目前處理階段。",
+        detectedAtTooltip: "AI 偵測系統首次看到事件的時間。",
+        ingestedAtTooltip: "API 接收並保存事件的時間。",
+        delayTooltip: "API 接收時間與 AI 偵測時間之間的差。",
+        locationTooltip: "由高速道路 ID、里程標或路段、車道號組成的位置資訊。",
+        confidenceTooltip: "模型對這次偵測結果的信心分數。",
+        coordinatesTooltip: "可用時顯示十進位緯度與經度。",
+        sourceEventIdTooltip: "偵測來源產生的唯一事件 ID，用於去重與冪等處理。",
+        cameraTooltip: "偵測來源提供的完整攝影機識別碼。",
+        severities: {
+          LOW: "低",
+          MEDIUM: "中",
+          HIGH: "高",
+          CRITICAL: "重大",
+        },
+        statuses: {
+          NEW: "新事件",
+          ACKNOWLEDGED: "已確認",
+          DISPATCHED: "已派遣",
+          RESOLVED: "已解決",
+        },
+        eventTypes: {
+          STOPPED_VEHICLE: "停車事件",
+          DEBRIS: "路面異物",
+          CONGESTION: "壅塞",
+          WRONG_WAY: "逆向行駛",
+          PEDESTRIAN: "行人",
+          UNKNOWN: "未知",
+        },
+      },
+    };
+
+    const nextStatusMap = {
+      NEW: "ACKNOWLEDGED",
+      ACKNOWLEDGED: "DISPATCHED",
+      DISPATCHED: "RESOLVED",
+      RESOLVED: null,
+    };
+
+    const previousStatusMap = {
+      NEW: null,
+      ACKNOWLEDGED: "NEW",
+      DISPATCHED: "ACKNOWLEDGED",
+      RESOLVED: "DISPATCHED",
+    };
+
+    function t(key) {
+      return translations[currentLang]?.[key] ?? translations.en[key] ?? key;
+    }
+
+    function label(group, value) {
+      return translations[currentLang]?.[group]?.[value] ?? translations.en[group]?.[value] ?? value;
+    }
+
+    function template(key, values) {
+      return Object.entries(values).reduce(
+        (result, [name, value]) => result.split(`{${name}}`).join(String(value)),
+        t(key)
+      );
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      }[char]));
+    }
+
+    function helpLabel(labelKey, tooltipKey) {
+      return `<span class="helpable" title="${escapeHtml(t(tooltipKey))}">${escapeHtml(t(labelKey))}</span>`;
+    }
+
+    function setStreamStatus(key) {
+      streamState = key;
+      streamStatus.innerHTML = `<span class="status-dot"></span><span>${t(key)}</span>`;
+    }
+
+    function applyTranslations() {
+      const dictionary = translations[currentLang] ?? translations.en;
+      document.documentElement.lang = dictionary.htmlLang;
+      document.title = dictionary.documentTitle;
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        element.textContent = t(element.dataset.i18n);
+      });
+      langButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.lang === currentLang));
+      });
+      document.querySelectorAll("#eventTypeInput option[value]").forEach((option) => {
+        if (option.value) option.textContent = label("eventTypes", option.value);
+      });
+      document.querySelectorAll("#severityInput option[value]").forEach((option) => {
+        if (option.value) option.textContent = label("severities", option.value);
+      });
+      document.querySelectorAll("#statusInput option[value]").forEach((option) => {
+        if (option.value) option.textContent = label("statuses", option.value);
+      });
+      pageJumpInput.setAttribute("aria-label", t("jumpToPage"));
+      setStreamStatus(streamState);
+      updatePaginationControls();
+      rerenderIncidents();
+    }
+
+    function setLanguage(language) {
+      currentLang = translations[language] ? language : "en";
+      localStorage.setItem("trafficDashboardLang", currentLang);
+      applyTranslations();
+    }
+
+    function formatDate(value) {
+      if (!value) return t("notAvailable");
+      return new Date(value).toLocaleString(translations[currentLang].locale);
+    }
+
+    function readDateTimeFilter(id) {
+      const value = document.getElementById(id).value;
+      return value ? new Date(value).toISOString() : "";
+    }
+
+    function readNumberFilter(id, transform = (value) => value) {
+      const rawValue = document.getElementById(id).value;
+      if (rawValue === "") return "";
+      const numberValue = Number(rawValue);
+      return Number.isFinite(numberValue) ? transform(numberValue) : "";
+    }
+
+    function computeDelaySeconds(incident) {
+      const detected = new Date(incident.detected_at);
+      const ingested = new Date(incident.ingested_at);
+      const diffSeconds = Math.round((ingested - detected) / 1000);
+      return Number.isFinite(diffSeconds) ? Math.max(diffSeconds, 0) : 0;
+    }
+
+    function formatDelay(incident) {
+      const delay = computeDelaySeconds(incident);
+      return `${delay}s`;
+    }
+
+    function formatCoordinates(incident) {
+      if (typeof incident.latitude !== "number" || typeof incident.longitude !== "number") {
+        return t("notAvailable");
+      }
+      return `${incident.latitude.toFixed(4)}, ${incident.longitude.toFixed(4)}`;
+    }
+
+    function formatLocation(incident) {
+      const parts = [incident.highway_id, incident.road_marker, incident.lane_no ? `${t("lane")} ${incident.lane_no}` : null]
+        .filter(Boolean);
+      if (parts.length > 0) {
+        return parts.join(" · ");
+      }
+      return formatCoordinates(incident);
+    }
+
+    function updateSummary() {
+      const items = Array.from(incidents.values());
+      const totalMatching = Math.max(Number(currentListMeta.total) || 0, items.length);
+      totalCount.textContent = `${items.length} / ${totalMatching}`;
+      const criticalPage = items.filter((item) => item.severity === "CRITICAL").length;
+      const criticalTotal = Math.max(Number(currentListMeta.critical_total) || 0, criticalPage);
+      criticalCount.textContent = `${criticalPage} / ${criticalTotal}`;
+
+      const avg = items.length
+        ? Math.round(items.reduce((sum, item) => sum + computeDelaySeconds(item), 0) / items.length)
+        : 0;
+      const totalAvg = currentListMeta.avg_delay_seconds_total;
+      avgDelay.textContent = totalAvg === null || totalAvg === undefined ? `${avg}s / --` : `${avg}s / ${totalAvg}s`;
+      const searchTime = lastSearchAt ? formatDate(lastSearchAt) : t("notAvailable");
+      const dbChangeTime = currentListMeta.latest_updated_at ? formatDate(currentListMeta.latest_updated_at) : t("notAvailable");
+      lastRefresh.innerHTML = `
+        <span>${escapeHtml(t("searchTime"))}: ${escapeHtml(searchTime)}</span>
+        <span>${escapeHtml(t("dbChangeTime"))}: ${escapeHtml(dbChangeTime)}</span>
+      `;
+      emptyState.hidden = items.length !== 0;
+      updatePaginationControls();
+    }
+
+    function updatePaginationControls() {
+      const total = Math.max(Number(currentListMeta.total) || 0, 0);
+      const limit = Math.max(Number(currentListMeta.limit || currentPagination.limit) || 50, 1);
+      const offset = Math.max(Number(currentListMeta.offset || currentPagination.offset) || 0, 0);
+      const pages = total ? Math.ceil(total / limit) : 0;
+      const page = total ? Math.floor(offset / limit) + 1 : 0;
+      const start = total ? offset + 1 : 0;
+      const end = total ? Math.min(offset + incidents.size, total) : 0;
+
+      pageInfo.textContent = total
+        ? template("pageInfo", { page, pages, start, end, total })
+        : t("noPageInfo");
+      prevPageButton.disabled = offset <= 0;
+      nextPageButton.disabled = offset + limit >= total;
+      pageJumpInput.disabled = total === 0;
+      jumpPageButton.disabled = total === 0;
+      pageJumpInput.max = String(Math.max(pages, 1));
+      pageJumpInput.value = String(Math.max(page, 1));
+      if (pageSizeInput.value !== String(limit)) {
+        pageSizeInput.value = String(limit);
+      }
+    }
+
+    function buildTags(incident) {
+      return `
+        <div class="incident-tags">
+          <span class="tag severity-${incident.severity}" title="${escapeHtml(t("severityTooltip"))}">${escapeHtml(label("severities", incident.severity))}</span>
+          <span class="tag" title="${escapeHtml(t("eventTypeTooltip"))}">${escapeHtml(label("eventTypes", incident.event_type))}</span>
+          <span class="tag status-${incident.status}" title="${escapeHtml(t("statusTooltip"))}">${escapeHtml(label("statuses", incident.status))}</span>
+        </div>
+      `;
+    }
+
+    function renderIncidentCard(incident) {
+      const nextStatus = nextStatusMap[incident.status];
+      const previousStatus = previousStatusMap[incident.status];
+      const description = incident.description
+        ? `<div class="incident-message subtle">${escapeHtml(t("detectionMessage"))}: ${escapeHtml(incident.description)}</div>`
+        : "";
+      return `
+        <article class="incident-card" data-id="${incident.id}" data-status="${incident.status}" style="--severity-color: var(--${incident.severity.toLowerCase()});">
+          <div class="incident-top">
+            <div>
+              <h3 class="incident-title">${escapeHtml(label("eventTypes", incident.event_type))}</h3>
+              <div class="meta" title="${escapeHtml(t("cameraTooltip"))}">${escapeHtml(t("camera"))} ${escapeHtml(incident.camera_id)}${incident.highway_id ? ` · ${escapeHtml(incident.highway_id)}` : ""}</div>
+              ${description}
+            </div>
+            ${buildTags(incident)}
+          </div>
+
+          <div class="incident-meta">
+            <div>
+              ${helpLabel("detectedAt", "detectedAtTooltip")}
+              <strong>${formatDate(incident.detected_at)}</strong>
+            </div>
+            <div>
+              ${helpLabel("ingestedAt", "ingestedAtTooltip")}
+              <strong>${formatDate(incident.ingested_at)}</strong>
+            </div>
+            <div>
+              ${helpLabel("detectionDelay", "delayTooltip")}
+              <strong>${formatDelay(incident)}</strong>
+            </div>
+            <div>
+              ${helpLabel("location", "locationTooltip")}
+              <strong title="${escapeHtml(t("locationTooltip"))}">${escapeHtml(formatLocation(incident))}</strong>
+            </div>
+            <div>
+              ${helpLabel("confidence", "confidenceTooltip")}
+              <strong>${Math.round(incident.confidence * 100)}%</strong>
+            </div>
+            <div>
+              ${helpLabel("coordinates", "coordinatesTooltip")}
+              <strong title="${escapeHtml(t("coordinatesTooltip"))}">${escapeHtml(formatCoordinates(incident))}</strong>
+            </div>
+            <div>
+              ${helpLabel("cameraId", "cameraTooltip")}
+              <strong title="${escapeHtml(t("cameraTooltip"))}">${escapeHtml(incident.camera_id)}</strong>
+            </div>
+            <div>
+              ${helpLabel("sourceEventId", "sourceEventIdTooltip")}
+              <strong title="${escapeHtml(t("sourceEventIdTooltip"))}">${escapeHtml(incident.source_event_id)}</strong>
+            </div>
+          </div>
+
+          ${incident.status_note ? `<div class="subtle">${escapeHtml(t("statusNote"))}: ${escapeHtml(incident.status_note)}</div>` : ""}
+
+          <div class="incident-actions">
+            <button class="btn-secondary" data-action="status" data-id="${incident.id}" data-status="${previousStatus || ""}" ${previousStatus ? "" : "disabled"}>
+              ${previousStatus ? `${escapeHtml(t("moveBack"))} ${escapeHtml(label("statuses", previousStatus))}` : escapeHtml(t("beginningStatus"))}
+            </button>
+            <button class="btn-primary" data-action="status" data-id="${incident.id}" data-status="${nextStatus || ""}" ${nextStatus ? "" : "disabled"}>
+              ${nextStatus ? `${escapeHtml(t("moveForward"))} ${escapeHtml(label("statuses", nextStatus))}` : escapeHtml(t("resolved"))}
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    function rerenderIncidents() {
+      const items = Array.from(incidents.values()).sort(compareIncidents);
+      incidentList.innerHTML = "";
+      renderedIds.clear();
+      items.forEach((incident) => {
+        renderedIds.add(incident.id);
+        incidentList.insertAdjacentHTML("beforeend", renderIncidentCard(incident));
+      });
+      updateSummary();
+    }
+
+    function upsertIncident(incident, options = {}) {
+      if (!incidentMatchesCurrentFilters(incident)) {
+        if (incidents.delete(incident.id)) {
+          if (options.adjustTotal) {
+            currentListMeta.total = Math.max(0, currentListMeta.total - 1);
+            if (incident.severity === "CRITICAL") {
+              currentListMeta.critical_total = Math.max(0, currentListMeta.critical_total - 1);
+            }
+          }
+          rerenderIncidents();
+        }
+        return;
+      }
+
+      const existed = incidents.has(incident.id);
+      incidents.set(incident.id, incident);
+      if (options.adjustTotal && !existed) {
+        currentListMeta.total = Math.max(currentListMeta.total + 1, incidents.size);
+      }
+      rerenderIncidents();
+    }
+
+    function handleCreatedIncident(incident) {
+      if (!incidentMatchesCurrentFilters(incident)) return;
+
+      currentListMeta.total += 1;
+      if (incident.severity === "CRITICAL") {
+        currentListMeta.critical_total += 1;
+      }
+      currentListMeta.latest_updated_at = incident.updated_at ?? incident.ingested_at ?? currentListMeta.latest_updated_at;
+      if (currentListMeta.offset === 0) {
+        incidents.set(incident.id, incident);
+        const pageItems = Array.from(incidents.values())
+          .sort(compareIncidents)
+          .slice(0, currentListMeta.limit);
+        incidents.clear();
+        pageItems.forEach((item) => incidents.set(item.id, item));
+      }
+      rerenderIncidents();
+    }
+
+    function updateIncidentStatus(id, status, updatedAt, statusNote) {
+      const incident = incidents.get(id);
+      if (!incident) return;
+      incident.status = status;
+      incident.updated_at = updatedAt;
+      incident.status_note = statusNote ?? incident.status_note;
+      currentListMeta.latest_updated_at = updatedAt ?? currentListMeta.latest_updated_at;
+      upsertIncident(incident, { adjustTotal: true });
+    }
+
+    async function changeStatus(id, targetStatus) {
+      const incident = incidents.get(id);
+      const allowedTargets = [previousStatusMap[incident?.status], nextStatusMap[incident?.status]].filter(Boolean);
+      if (!incident || !targetStatus || !allowedTargets.includes(targetStatus)) return;
+
+      const confirmation = t("confirmStatusChange")
+        .replace("{from}", label("statuses", incident.status))
+        .replace("{to}", label("statuses", targetStatus));
+      if (!window.confirm(confirmation)) return;
+
+      const response = await fetch(`/events/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: targetStatus }),
+      });
+
+      if (!response.ok) {
+        console.error(t("failedStatusUpdate"), await response.text());
+      }
+    }
+
+    function readFilterState() {
+      return {
+        severity: document.getElementById("severityInput").value,
+        event_type: document.getElementById("eventTypeInput").value,
+        status: document.getElementById("statusInput").value,
+        camera_query: document.getElementById("cameraQueryInput").value.trim(),
+        camera_id: document.getElementById("cameraIdInput").value.trim(),
+        source_event_id: document.getElementById("sourceEventIdInput").value.trim(),
+        detected_from: readDateTimeFilter("detectedFromInput"),
+        detected_to: readDateTimeFilter("detectedToInput"),
+        ingested_from: readDateTimeFilter("ingestedFromInput"),
+        ingested_to: readDateTimeFilter("ingestedToInput"),
+        min_delay_seconds: readNumberFilter("minDelayInput"),
+        max_delay_seconds: readNumberFilter("maxDelayInput"),
+        min_confidence: readNumberFilter("minConfidenceInput", (value) => value / 100),
+        max_confidence: readNumberFilter("maxConfidenceInput", (value) => value / 100),
+        sort_by: document.getElementById("sortByInput").value,
+        order: document.getElementById("orderInput").value,
+      };
+    }
+
+    function containsIgnoreCase(value, query) {
+      return String(value ?? "").toLowerCase().includes(String(query).toLowerCase());
+    }
+
+    function incidentMatchesCurrentFilters(incident) {
+      const detectedAt = new Date(incident.detected_at).getTime();
+      const ingestedAt = new Date(incident.ingested_at).getTime();
+      const delay = computeDelaySeconds(incident);
+
+      return (!currentFilters.severity || incident.severity === currentFilters.severity)
+        && (!currentFilters.event_type || incident.event_type === currentFilters.event_type)
+        && (!currentFilters.status || incident.status === currentFilters.status)
+        && (!currentFilters.camera_query || [
+          incident.camera_id,
+          incident.highway_id,
+          incident.road_marker,
+          incident.lane_no,
+        ].some((value) => containsIgnoreCase(value, currentFilters.camera_query)))
+        && (!currentFilters.camera_id || containsIgnoreCase(incident.camera_id, currentFilters.camera_id))
+        && (!currentFilters.source_event_id || containsIgnoreCase(incident.source_event_id, currentFilters.source_event_id))
+        && (!currentFilters.detected_from || detectedAt >= new Date(currentFilters.detected_from).getTime())
+        && (!currentFilters.detected_to || detectedAt <= new Date(currentFilters.detected_to).getTime())
+        && (!currentFilters.ingested_from || ingestedAt >= new Date(currentFilters.ingested_from).getTime())
+        && (!currentFilters.ingested_to || ingestedAt <= new Date(currentFilters.ingested_to).getTime())
+        && (currentFilters.min_delay_seconds === "" || delay >= Number(currentFilters.min_delay_seconds))
+        && (currentFilters.max_delay_seconds === "" || delay <= Number(currentFilters.max_delay_seconds))
+        && (currentFilters.min_confidence === "" || incident.confidence >= Number(currentFilters.min_confidence))
+        && (currentFilters.max_confidence === "" || incident.confidence <= Number(currentFilters.max_confidence));
+    }
+
+    function compareIncidents(left, right) {
+      const direction = currentFilters.order === "asc" ? 1 : -1;
+      if (currentFilters.sort_by === "severity") {
+        const rank = { LOW: 1, MEDIUM: 2, HIGH: 3, CRITICAL: 4 };
+        return ((rank[left.severity] ?? 0) - (rank[right.severity] ?? 0)) * direction;
+      }
+      if (currentFilters.sort_by === "confidence") {
+        return (left.confidence - right.confidence) * direction;
+      }
+      if (currentFilters.sort_by === "detection_delay") {
+        return (computeDelaySeconds(left) - computeDelaySeconds(right)) * direction;
+      }
+      if (currentFilters.sort_by === "ingested_at" || currentFilters.sort_by === "updated_at") {
+        return (new Date(left[currentFilters.sort_by]) - new Date(right[currentFilters.sort_by])) * direction;
+      }
+      return (new Date(left.detected_at) - new Date(right.detected_at)) * direction;
+    }
+
+    function buildQueryString() {
+      currentFilters = readFilterState();
+      currentPagination.limit = Number(pageSizeInput.value) || 50;
+      const params = new URLSearchParams();
+      const fields = [
+        ["severity", currentFilters.severity],
+        ["event_type", currentFilters.event_type],
+        ["status", currentFilters.status],
+        ["camera_query", currentFilters.camera_query],
+        ["camera_id", currentFilters.camera_id],
+        ["source_event_id", currentFilters.source_event_id],
+        ["detected_from", currentFilters.detected_from],
+        ["detected_to", currentFilters.detected_to],
+        ["ingested_from", currentFilters.ingested_from],
+        ["ingested_to", currentFilters.ingested_to],
+        ["min_delay_seconds", currentFilters.min_delay_seconds],
+        ["max_delay_seconds", currentFilters.max_delay_seconds],
+        ["min_confidence", currentFilters.min_confidence],
+        ["max_confidence", currentFilters.max_confidence],
+        ["sort_by", currentFilters.sort_by],
+        ["order", currentFilters.order],
+        ["limit", String(currentPagination.limit)],
+        ["offset", String(currentPagination.offset)],
+      ];
+
+      fields.forEach(([key, value]) => {
+        if (value !== "" && value !== null && value !== undefined) params.set(key, value);
+      });
+
+      return params.toString();
+    }
+
+    async function loadIncidents(options = {}) {
+      if (options.resetPage) {
+        currentPagination.offset = 0;
+      }
+      const response = await fetch(`/events?${buildQueryString()}`);
+      const payload = await response.json();
+
+      if (!response.ok) {
+        throw new Error(payload?.error?.message || "Failed to load incidents");
+      }
+
+      incidents.clear();
+      renderedIds.clear();
+      incidentList.innerHTML = "";
+      currentListMeta = {
+        total: Number(payload.meta?.total ?? payload.data.length),
+        limit: Number(payload.meta?.limit ?? 50),
+        offset: Number(payload.meta?.offset ?? 0),
+        critical_total: Number(payload.meta?.critical_total ?? 0),
+        avg_delay_seconds_total: payload.meta?.avg_delay_seconds_total ?? null,
+        latest_updated_at: payload.meta?.latest_updated_at ?? null,
+      };
+      currentPagination.limit = currentListMeta.limit;
+      currentPagination.offset = currentListMeta.offset;
+      lastSearchAt = new Date();
+
+      payload.data.forEach((incident) => incidents.set(incident.id, incident));
+      updateCameraOptions(payload.data);
+      rerenderIncidents();
+    }
+
+    async function goToPage() {
+      const total = Math.max(Number(currentListMeta.total) || 0, 0);
+      const limit = Math.max(Number(currentListMeta.limit || currentPagination.limit) || 50, 1);
+      const pages = total ? Math.ceil(total / limit) : 1;
+      const requestedPage = Math.min(Math.max(Number(pageJumpInput.value) || 1, 1), pages);
+      currentPagination.offset = (requestedPage - 1) * limit;
+      await loadIncidents();
+    }
+
+    function updateCameraOptions(items) {
+      const datalist = document.getElementById("cameraIdOptions");
+      const cameraIds = Array.from(new Set(items.map((incident) => incident.camera_id).filter(Boolean))).sort();
+      datalist.innerHTML = cameraIds.map((cameraId) => `<option value="${escapeHtml(cameraId)}"></option>`).join("");
+    }
+
+    function connectStream() {
+      if (eventSource) {
+        eventSource.close();
+      }
+
+      eventSource = new EventSource("/events/stream");
+      eventSource.onopen = () => {
+        setStreamStatus("liveConnected");
+      };
+
+      eventSource.addEventListener("incident.created", (event) => {
+        const message = JSON.parse(event.data);
+        handleCreatedIncident(message.payload);
+      });
+
+      eventSource.addEventListener("incident.status_updated", (event) => {
+        const message = JSON.parse(event.data);
+        updateIncidentStatus(message.event_id, message.status, message.updated_at, message.status_note);
+      });
+
+      eventSource.onerror = () => {
+        setStreamStatus("reconnecting");
+      };
+    }
+
+    langButtons.forEach((button) => {
+      button.addEventListener("click", () => setLanguage(button.dataset.lang));
+    });
+
+    filtersForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await loadIncidents({ resetPage: true });
+    });
+
+    resetButton.addEventListener("click", async () => {
+      filtersForm.reset();
+      document.getElementById("sortByInput").value = "detected_at";
+      document.getElementById("orderInput").value = "desc";
+      await loadIncidents({ resetPage: true });
+    });
+
+    pageSizeInput.addEventListener("change", async () => {
+      currentPagination.limit = Number(pageSizeInput.value) || 50;
+      await loadIncidents({ resetPage: true });
+    });
+
+    prevPageButton.addEventListener("click", async () => {
+      currentPagination.offset = Math.max(0, currentListMeta.offset - currentListMeta.limit);
+      await loadIncidents();
+    });
+
+    nextPageButton.addEventListener("click", async () => {
+      const nextOffset = currentListMeta.offset + currentListMeta.limit;
+      if (nextOffset >= currentListMeta.total) return;
+      currentPagination.offset = nextOffset;
+      await loadIncidents();
+    });
+
+    jumpPageButton.addEventListener("click", goToPage);
+
+    pageJumpInput.addEventListener("keydown", async (event) => {
+      if (event.key !== "Enter") return;
+      event.preventDefault();
+      await goToPage();
+    });
+
+    incidentList.addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-action='status']");
+      if (!button) return;
+      await changeStatus(button.dataset.id, button.dataset.status);
+    });
+
+    loadIncidents()
+      .then(connectStream)
+      .catch((error) => {
+        console.error(error);
+        setStreamStatus("unableLoad");
+      });
+
+    applyTranslations();
+  </script>
+</body>
+</html>
