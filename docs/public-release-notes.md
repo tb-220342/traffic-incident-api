@@ -1,6 +1,13 @@
 # Public Release Notes
 
+Language: [English](public-release-notes.md) | [日本語](public-release-notes.ja.md) | [繁體中文](public-release-notes.zh-Hant.md)
+
+Back to [Document Index](document-index.md)
+
 This repository is intended to be public on GitHub. For that reason, it does not include dataset-derived media files or trained model weights.
+
+> [!CAUTION]
+> This is a conservative compliance note for an interview submission. It is not legal advice, but it documents the publication choices made to avoid redistributing dataset-derived artifacts.
 
 ## License Review Summary
 

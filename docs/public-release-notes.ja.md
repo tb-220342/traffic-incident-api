@@ -1,6 +1,13 @@
 # Public release notes
 
+言語: [English](public-release-notes.md) | [日本語](public-release-notes.ja.md) | [繁體中文](public-release-notes.zh-Hant.md)
+
+[Document Index](document-index.ja.md) に戻る
+
 この repository は GitHub で public にする前提です。そのため、dataset 由来の media file や trained model weight は含めていません。
+
+> [!CAUTION]
+> これは interview submission 向けの保守的な compliance note です。legal advice ではありませんが、dataset 由来 artifact を再配布しない判断を明文化しています。
 
 ## license review summary
 

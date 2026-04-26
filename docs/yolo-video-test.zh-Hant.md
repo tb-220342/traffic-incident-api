@@ -1,5 +1,9 @@
 # YOLO 影片測試資料
 
+語言: [English](yolo-video-test.md) | [日本語](yolo-video-test.ja.md) | [繁體中文](yolo-video-test.zh-Hant.md)
+
+回到 [Document Index](document-index.zh-Hant.md)
+
 本機 YOLO 影片測試資料夾:
 
 ```text
@@ -7,6 +11,9 @@
 ```
 
 `<DATA_ROOT>` 是 repository 外部的 ML data directory。未設定 `TRAFFIC_DATASETS_ROOT` 時，預設是 `../traffic-incident-data`。
+
+> [!NOTE]
+> public repository 保留 video test workflow 與 demo DB 內已驗證 API rows，但不再散布 dataset 派生 MP4 或 YOLO weight。
 
 public GitHub release 不 commit dataset 派生 MP4。若要執行 YOLO demo，請把檔案保留或重新生成在 `<DATA_ROOT>\yolovideotest`。
 

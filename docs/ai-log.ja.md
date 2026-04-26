@@ -2,6 +2,11 @@
 
 言語: [English](ai-log.md) | [日本語](ai-log.ja.md) | [繁體中文](ai-log.zh-Hant.md)
 
+[ドキュメント索引へ戻る](document-index.ja.md) | [Project README](../README.ja.md)
+
+> [!NOTE]
+> このページは透明性のための記録です。AI が支援した内容、実装者が判断した内容、レビュー担当者が確認できる原文資料を整理しています。
+
 このファイルは、本課題の開発で AI 支援をどのように利用したかをまとめたものです。
 Claude / Gemini との対話原文は `docs/ai-conversation-source.md` に抽出しており、元 PDF は `docs/Claude_geminiconversation.md.pdf` に保存しています。
 

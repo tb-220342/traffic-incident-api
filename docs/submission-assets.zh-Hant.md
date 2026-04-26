@@ -1,6 +1,13 @@
 # Public 提交用資產與資料來源
 
+語言: [English](submission-assets.md) | [日本語](submission-assets.ja.md) | [繁體中文](submission-assets.zh-Hant.md)
+
+回到 [Document Index](document-index.zh-Hant.md)
+
 這份文件說明 repo 內包含哪些非程式 demo 資產，以及這些資料從哪裡來。
+
+> [!NOTE]
+> public repository 包含可重現證據與 demo data，不包含 raw training assets 或 trained weights。
 
 ## 已放入 Repo 的內容
 

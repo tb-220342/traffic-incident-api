@@ -2,7 +2,12 @@
 
 Languages: [English](implementation-vs-requirements-v2.en.md) | [日本語](implementation-vs-requirements-v2.ja.md) | [繁體中文](implementation-vs-requirements-v2.md)
 
+Back to [Document Index](document-index.md)
+
 Last updated: 2026-04-26 (Asia/Tokyo)
+
+> [!IMPORTANT]
+> Current status: required backend scope is complete, demo enhancements are complete, and YOLO integration is demo-ready with public-safe artifacts.
 
 ## Verification Snapshot
 

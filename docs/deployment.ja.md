@@ -1,11 +1,25 @@
 # デプロイ / 実行ガイド
 
+言語: [English](deployment.md) | [日本語](deployment.ja.md) | [繁體中文](deployment.zh-Hant.md)
+
+[Document Index](document-index.ja.md) に戻る
+
 このプロジェクトは面接課題の demo service として作っています。review 用の推奨実行方法は、ローカル PC 上の Docker Compose です。
 
 表記:
 
 - `<repo-root>` は reviewer がこの repository を clone した directory です。
 - `<DATA_ROOT>` は repository 外の ML data directory です。default は `../traffic-incident-data` で、`TRAFFIC_DATASETS_ROOT` で変更できます。
+
+## At A Glance
+
+| Item | Value |
+| --- | --- |
+| 推奨実行方法 | Docker Compose |
+| API docs | `http://127.0.0.1:8000/docs` |
+| Dashboard | `http://127.0.0.1:8000/ui/` |
+| Runtime DB | `<repo-root>/data/incidents.db` |
+| Packaged demo DB | `demo-data/incidents-demo.db` |
 
 ## 推奨 demo deployment
 

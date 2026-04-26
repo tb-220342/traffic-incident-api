@@ -2,6 +2,11 @@
 
 Languages: [English](ai-log.md) | [日本語](ai-log.ja.md) | [繁體中文](ai-log.zh-Hant.md)
 
+[Back to Documentation Index](document-index.md) | [Project README](../README.md)
+
+> [!NOTE]
+> This page is a transparency record: what AI helped with, what was implemented by the project owner, and where reviewers can inspect the source conversations.
+
 This file summarizes how AI assistance was used while building the assignment.
 The raw Claude/Gemini conversation source is included as `docs/ai-conversation-source.md`, with the original PDF kept at `docs/Claude_geminiconversation.md.pdf`.
 
@@ -25,7 +30,7 @@ The raw Claude/Gemini conversation source is included as `docs/ai-conversation-s
    - Build the core API and SSE flow first
    - Add a lightweight dashboard to demonstrate real-time behavior
    - Add test coverage, local run instructions, and Docker support
-4. Implemented the project on local disk in `<repo-root>`
+4. Implemented the project inside the repository workspace (`<repo-root>`)
 5. Ran local verification and fixed issues discovered during test execution
 6. Extended the project into a training-enabled version:
    - Added downloaders for official MIO-TCD, RDD2022, and TRANCOS archives

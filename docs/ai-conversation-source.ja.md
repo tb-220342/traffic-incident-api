@@ -2,6 +2,11 @@
 
 言語: [English](ai-conversation-source.en.md) | [日本語](ai-conversation-source.ja.md) | [繁體中文](ai-conversation-source.zh-Hant.md)
 
+[ドキュメント索引へ戻る](document-index.ja.md) | [AI 利用ログ](ai-log.ja.md)
+
+> [!NOTE]
+> これは AI 対話証跡を読みやすく翻訳した版です。追跡性のため、raw 抽出テキストも別ファイルとして残しています。
+
 原 PDF: [Claude_geminiconversation.md.pdf](Claude_geminiconversation.md.pdf)  
 Raw 抽出元: [ai-conversation-source.md](ai-conversation-source.md)
 

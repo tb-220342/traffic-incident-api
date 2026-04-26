@@ -1,37 +1,57 @@
 # Traffic Incident Monitoring API Platform
 
-Languages: [English](README.md) | [日本語](README.ja.md) | [繁體中文](README.zh-Hant.md)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](#tech-choices)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white)](#api-endpoints)
+[![SQLite](https://img.shields.io/badge/SQLite-Persistence-003B57?logo=sqlite&logoColor=white)](#local-run)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](#docker-run)
+[![SSE](https://img.shields.io/badge/Realtime-SSE-111827)](#response-contract-highlights)
+[![YOLO](https://img.shields.io/badge/YOLO-Optional%20Pipeline-FF6B00)](#yolo-training-version)
 
-Related documents:
+Language: [English](README.md) | [日本語](README.ja.md) | [繁體中文](README.zh-Hant.md)
 
-- Document index: [English](docs/document-index.md) | [日本語](docs/document-index.ja.md) | [繁體中文](docs/document-index.zh-Hant.md)
-- Deployment and run guide: [English](docs/deployment.md) | [日本語](docs/deployment.ja.md) | [繁體中文](docs/deployment.zh-Hant.md)
-- Implementation status: [English](docs/implementation-vs-requirements-v2.en.md) | [日本語](docs/implementation-vs-requirements-v2.ja.md) | [繁體中文](docs/implementation-vs-requirements-v2.md)
-- Requirements specification translation: [English](docs/requirements-spec.en.md) | [日本語](docs/requirements-spec.ja.md) | [繁體中文](docs/requirements-spec.zh-Hant.md) | [source PDF](docs/requirements_spec.md.pdf)
-- AI workflow log: [English](docs/ai-log.md) | [日本語](docs/ai-log.ja.md) | [繁體中文](docs/ai-log.zh-Hant.md)
-- AI conversation source: [English](docs/ai-conversation-source.en.md) | [日本語](docs/ai-conversation-source.ja.md) | [繁體中文](docs/ai-conversation-source.zh-Hant.md) | [raw extracted Markdown](docs/ai-conversation-source.md) | [original PDF](docs/Claude_geminiconversation.md.pdf)
-- YOLO video test clips: [English](docs/yolo-video-test.md) | [日本語](docs/yolo-video-test.ja.md) | [繁體中文](docs/yolo-video-test.zh-Hant.md)
-- Submission assets and data sources: [English](docs/submission-assets.md) | [日本語](docs/submission-assets.ja.md) | [繁體中文](docs/submission-assets.zh-Hant.md)
-- Public release notes: [English](docs/public-release-notes.md) | [日本語](docs/public-release-notes.ja.md) | [繁體中文](docs/public-release-notes.zh-Hant.md)
+Back-end interview project for a traffic incident monitoring platform. It ingests AI-generated road incidents, stores them in SQLite, exposes queryable REST APIs, and pushes real-time dashboard updates with Server-Sent Events.
 
-This repository implements the back-end assignment described in the provided evaluation brief and requirements specification. It receives AI-generated traffic incident events, persists them in SQLite, exposes queryable REST endpoints, and pushes real-time updates to connected dashboards over Server-Sent Events (SSE).
+> [!NOTE]
+> The repository is public-release safe. Raw datasets, dataset-derived MP4 files, snapshots, trained `.pt` weights, local `.env`, and machine-specific paths are intentionally excluded.
 
-## What is included
+## Reviewer Quick Path
 
-- FastAPI API with layered `router / service / repository / schema` structure
-- SQLite persistence via SQLAlchemy
-- Event ingestion endpoint with Pydantic validation
-- Idempotent event ingest via `source_event_id`
-- Event list and detail endpoints with filters, sorting, and pagination
-- Status update endpoint with reversible operator workflow rules
-- SSE endpoint for real-time dashboard updates
-- Static HTML dashboard using vanilla JavaScript with English, Japanese, and Chinese language switching, search-only filter guidance, displayed/matching counts, pagination controls, localized incident labels, field tooltips, and reversible status actions
-- Random event seed script for demo data
-- Dockerfile and `docker-compose.yml`
-- Pytest coverage for key API flows
-- YOLO training/download/preparation scripts that write large ML assets to an external data directory configured by `TRAFFIC_DATASETS_ROOT`
-- Public-safe demo assets in the repository: training summaries and a demo SQLite database snapshot. Dataset-derived videos, snapshots, and trained `.pt` weights are intentionally excluded from the public repo.
-- AI workflow log in `docs/ai-log.md`
+| Goal | Link / Command |
+| --- | --- |
+| Run the demo | `docker compose up -d --build` |
+| Open API docs | `http://127.0.0.1:8000/docs` |
+| Open dashboard | `http://127.0.0.1:8000/ui/` |
+| Check implementation coverage | [Implementation vs Requirements](docs/implementation-vs-requirements-v2.en.md) |
+| Read deployment guide | [Deployment](docs/deployment.md) |
+| Review all documents | [Document Index](docs/document-index.md) |
+
+## Document Hub
+
+| Document | English | Japanese | Chinese |
+| --- | --- | --- | --- |
+| Document index | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
+| Deployment guide | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
+| Implementation status | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
+| Requirements specification | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
+| AI workflow log | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |
+| AI conversation source | [EN](docs/ai-conversation-source.en.md) | [JA](docs/ai-conversation-source.ja.md) | [ZH](docs/ai-conversation-source.zh-Hant.md) |
+| YOLO video test | [EN](docs/yolo-video-test.md) | [JA](docs/yolo-video-test.ja.md) | [ZH](docs/yolo-video-test.zh-Hant.md) |
+| Assets and sources | [EN](docs/submission-assets.md) | [JA](docs/submission-assets.ja.md) | [ZH](docs/submission-assets.zh-Hant.md) |
+| Public release notes | [EN](docs/public-release-notes.md) | [JA](docs/public-release-notes.ja.md) | [ZH](docs/public-release-notes.zh-Hant.md) |
+
+Original source files: [requirements PDF](docs/requirements_spec.md.pdf), [AI conversation PDF](docs/Claude_geminiconversation.md.pdf), [raw extracted AI conversation](docs/ai-conversation-source.md).
+
+## What Is Included
+
+| Area | Highlights |
+| --- | --- |
+| API | FastAPI, Pydantic validation, idempotent `source_event_id` ingest, list/detail/status endpoints |
+| Realtime | SSE stream for `incident.created` and `incident.status_updated` |
+| Persistence | SQLAlchemy + SQLite with Docker volume persistence |
+| Dashboard | Vanilla JS UI, EN/JA/ZH switching, filter guidance, pagination, tooltips, reversible status actions |
+| Demo Ops | Docker Compose, seed script, Swagger UI, packaged demo database |
+| YOLO Extension | Download, prepare, train, infer, and post detections back to the API |
+| Evidence | Tests, screenshots, AI logs, requirement comparison, public-release notes |
 
 ## Tech choices
 

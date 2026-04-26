@@ -2,6 +2,11 @@
 
 言語: [English](requirements-spec.en.md) | [日本語](requirements-spec.ja.md) | [繁體中文](requirements-spec.zh-Hant.md)
 
+[ドキュメント索引へ戻る](document-index.ja.md) | [Project README](../README.ja.md)
+
+> [!NOTE]
+> この文書は、評価課題の範囲と追加要件に対して実装を確認するための整理済み要件リファレンスです。
+
 原 PDF: [requirements_spec.md.pdf](requirements_spec.md.pdf)
 
 これは Back-End Candidate Evaluation 向けに作成した要件定義書の日本語整形版です。

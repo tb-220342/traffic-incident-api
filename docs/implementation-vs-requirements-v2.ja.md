@@ -2,7 +2,12 @@
 
 言語: [English](implementation-vs-requirements-v2.en.md) | [日本語](implementation-vs-requirements-v2.ja.md) | [繁體中文](implementation-vs-requirements-v2.md)
 
+[Document Index](document-index.ja.md) に戻る
+
 最終更新: 2026-04-26 (Asia/Tokyo)
+
+> [!IMPORTANT]
+> 現在の状態: 必須 backend scope は完了、demo enhancement も完了、YOLO 連携は public-safe artifact で demo-ready です。
 
 ## 検証スナップショット
 

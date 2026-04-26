@@ -2,6 +2,11 @@
 
 語言: [English](requirements-spec.en.md) | [日本語](requirements-spec.ja.md) | [繁體中文](requirements-spec.zh-Hant.md)
 
+[返回文件索引](document-index.zh-Hant.md) | [專案 README](../README.zh-Hant.md)
+
+> [!NOTE]
+> 這是用來對照面試課題範圍與追加要件的整理版規格文件，方便審查目前實作是否滿足交付目標。
+
 原始 PDF: [requirements_spec.md.pdf](requirements_spec.md.pdf)
 
 這是 Back-End Candidate Evaluation 用要件定義書的繁體中文翻譯整理版。

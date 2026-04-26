@@ -2,6 +2,11 @@
 
 Languages: [English](ai-conversation-source.en.md) | [日本語](ai-conversation-source.ja.md) | [繁體中文](ai-conversation-source.zh-Hant.md)
 
+[Back to Documentation Index](document-index.md) | [AI Workflow Log](ai-log.md)
+
+> [!NOTE]
+> This is a readable translation of the AI conversation evidence. The raw extracted text remains available for traceability.
+
 Original PDF: [Claude_geminiconversation.md.pdf](Claude_geminiconversation.md.pdf)  
 Raw extracted source: [ai-conversation-source.md](ai-conversation-source.md)
 

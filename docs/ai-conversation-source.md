@@ -2,6 +2,11 @@ Raw extracted Claude/Gemini conversation text.
 
 Translations: [English](ai-conversation-source.en.md) | [日本語](ai-conversation-source.ja.md) | [繁體中文](ai-conversation-source.zh-Hant.md)
 
+[Back to Documentation Index](document-index.md) | [AI Workflow Log](ai-log.md)
+
+> [!IMPORTANT]
+> This file intentionally preserves the extracted conversation text for evidence. For reviewer-friendly reading, use the translated versions linked above.
+
 Original PDF: [Claude_geminiconversation.md.pdf](Claude_geminiconversation.md.pdf)
 
 ===== PAGE 1 =====

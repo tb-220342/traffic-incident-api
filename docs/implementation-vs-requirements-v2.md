@@ -2,7 +2,12 @@
 
 語言: [English](implementation-vs-requirements-v2.en.md) | [日本語](implementation-vs-requirements-v2.ja.md) | [繁體中文](implementation-vs-requirements-v2.md)
 
+回到 [Document Index](document-index.zh-Hant.md)
+
 最後更新：2026-04-26（Asia/Tokyo）
+
+> [!IMPORTANT]
+> 目前狀態：必做後端範圍已完成，demo 加值項已完成，YOLO 整合以 public-safe artifact 形式達到 demo-ready。
 
 ## 驗證快照
 

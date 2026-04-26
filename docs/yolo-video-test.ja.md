@@ -1,5 +1,9 @@
 # YOLO 動画テストクリップ
 
+言語: [English](yolo-video-test.md) | [日本語](yolo-video-test.ja.md) | [繁體中文](yolo-video-test.zh-Hant.md)
+
+[Document Index](document-index.ja.md) に戻る
+
 ローカルの YOLO 動画テスト用フォルダ:
 
 ```text
@@ -7,6 +11,9 @@
 ```
 
 `<DATA_ROOT>` は repository 外の ML data directory です。`TRAFFIC_DATASETS_ROOT` を設定していない場合、default は `../traffic-incident-data` です。
+
+> [!NOTE]
+> public repository には video test workflow と demo DB 内の検証済み API row を残していますが、dataset 由来 MP4 や YOLO weight は再配布しません。
 
 public GitHub release では、dataset 由来の MP4 file は repo に commit しません。YOLO demo を実行する場合は、`<DATA_ROOT>\yolovideotest` にローカル保持するか、再生成してください。
 

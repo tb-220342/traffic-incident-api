@@ -1,35 +1,57 @@
 # 交通事件監控 API 平台
 
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](#技術選型)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white)](#api-端點)
+[![SQLite](https://img.shields.io/badge/SQLite-Persistence-003B57?logo=sqlite&logoColor=white)](#本地啟動)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](#docker-啟動)
+[![SSE](https://img.shields.io/badge/Realtime-SSE-111827)](#回應契約重點)
+[![YOLO](https://img.shields.io/badge/YOLO-Optional%20Pipeline-FF6B00)](#yolo-整合)
+
 語言: [English](README.md) | [日本語](README.ja.md) | [繁體中文](README.zh-Hant.md)
 
-相關文件:
+這是針對後端面試課題完成的交通事件監控平台。系統接收 AI 影像分析產生的道路事件，保存到 SQLite，提供可查詢 REST API，並透過 SSE 即時推送到 Dashboard。
 
-- 文檔索引: [English](docs/document-index.md) | [日本語](docs/document-index.ja.md) | [繁體中文](docs/document-index.zh-Hant.md)
-- 部署 / 執行指南: [English](docs/deployment.md) | [日本語](docs/deployment.ja.md) | [繁體中文](docs/deployment.zh-Hant.md)
-- 實作完成度: [English](docs/implementation-vs-requirements-v2.en.md) | [日本語](docs/implementation-vs-requirements-v2.ja.md) | [繁體中文](docs/implementation-vs-requirements-v2.md)
-- 要件定義書翻譯: [English](docs/requirements-spec.en.md) | [日本語](docs/requirements-spec.ja.md) | [繁體中文](docs/requirements-spec.zh-Hant.md) | [source PDF](docs/requirements_spec.md.pdf)
-- AI 使用紀錄: [English](docs/ai-log.md) | [日本語](docs/ai-log.ja.md) | [繁體中文](docs/ai-log.zh-Hant.md)
-- AI 對話來源: [English](docs/ai-conversation-source.en.md) | [日本語](docs/ai-conversation-source.ja.md) | [繁體中文](docs/ai-conversation-source.zh-Hant.md) | [raw 抽出 Markdown](docs/ai-conversation-source.md) | [原始 PDF](docs/Claude_geminiconversation.md.pdf)
-- YOLO 影片測試: [English](docs/yolo-video-test.md) | [日本語](docs/yolo-video-test.ja.md) | [繁體中文](docs/yolo-video-test.zh-Hant.md)
-- 提交用資產與資料來源: [English](docs/submission-assets.md) | [日本語](docs/submission-assets.ja.md) | [繁體中文](docs/submission-assets.zh-Hant.md)
-- 公開發布說明: [English](docs/public-release-notes.md) | [日本語](docs/public-release-notes.ja.md) | [繁體中文](docs/public-release-notes.zh-Hant.md)
+> [!NOTE]
+> 這個 public repository 已做公開發布整理：不包含 raw dataset、dataset 派生 MP4、snapshot、trained `.pt` weight、本地 `.env` 或個人電腦路徑。
 
-這個專案是針對後端面試課題完成的交通事件監控 API。系統會接收 AI 影像分析送出的事件，將資料保存到 SQLite，提供可查詢的 REST API，並透過 Server-Sent Events (SSE) 即時推送到 Dashboard。
+## Reviewer Quick Path
+
+| 目的 | Link / Command |
+| --- | --- |
+| 啟動 demo | `docker compose up -d --build` |
+| API docs | `http://127.0.0.1:8000/docs` |
+| Dashboard | `http://127.0.0.1:8000/ui/` |
+| 查看完成度 | [Implementation vs Requirements](docs/implementation-vs-requirements-v2.md) |
+| 查看部署方式 | [Deployment](docs/deployment.zh-Hant.md) |
+| 查看所有文檔 | [Document Index](docs/document-index.zh-Hant.md) |
+
+## Document Hub
+
+| Document | English | Japanese | Chinese |
+| --- | --- | --- | --- |
+| Document index | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
+| Deployment guide | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
+| Implementation status | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
+| Requirements specification | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
+| AI workflow log | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |
+| AI conversation source | [EN](docs/ai-conversation-source.en.md) | [JA](docs/ai-conversation-source.ja.md) | [ZH](docs/ai-conversation-source.zh-Hant.md) |
+| YOLO video test | [EN](docs/yolo-video-test.md) | [JA](docs/yolo-video-test.ja.md) | [ZH](docs/yolo-video-test.zh-Hant.md) |
+| Assets and sources | [EN](docs/submission-assets.md) | [JA](docs/submission-assets.ja.md) | [ZH](docs/submission-assets.zh-Hant.md) |
+| Public release notes | [EN](docs/public-release-notes.md) | [JA](docs/public-release-notes.ja.md) | [ZH](docs/public-release-notes.zh-Hant.md) |
+
+原始來源: [requirements PDF](docs/requirements_spec.md.pdf), [AI conversation PDF](docs/Claude_geminiconversation.md.pdf), [raw extracted AI conversation](docs/ai-conversation-source.md)。
 
 ## 包含內容
 
-- FastAPI 後端，採用 `router / service / repository / schema` 分層
-- SQLAlchemy + SQLite 持久化
-- 使用 `source_event_id` 做事件冪等與去重
-- 支援篩選、排序、分頁的事件列表 API
-- 支援退回操作的事件狀態更新 API
-- SSE 即時推播
-- 支援 English / 日本語 / 中文 切換的靜態 Dashboard，並補上搜尋專用 Filter 說明、顯示 / 符合總數、翻頁控制、事件類型多語顯示、欄位 tooltip、可退回的狀態操作
-- 隨機假事件 seed script
-- `Dockerfile` 與 `docker-compose.yml`
-- 主要 API 流程的 pytest 測試
-- 使用 `TRAFFIC_DATASETS_ROOT` 指定之外部 data directory 的 YOLO 訓練 / 推理管線
-- `docs/ai-log.md` 的 AI 使用紀錄
+| Area | Highlights |
+| --- | --- |
+| API | FastAPI、Pydantic validation、`source_event_id` 冪等接收、list/detail/status endpoints |
+| Realtime | SSE 推送 `incident.created` / `incident.status_updated` |
+| Persistence | SQLAlchemy + SQLite，Docker volume persistence |
+| Dashboard | Vanilla JS、EN/JA/ZH、filter guidance、pagination、tooltip、可退回 status 操作 |
+| Demo Ops | Docker Compose、seed script、Swagger UI、packaged demo DB |
+| YOLO Extension | download / prepare / train / infer / API post pipeline |
+| Evidence | tests、screenshots、AI logs、requirements comparison、public-release notes |
 
 ## 技術選型
 

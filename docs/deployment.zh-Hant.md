@@ -1,11 +1,25 @@
 # 部署 / 執行指南
 
+語言: [English](deployment.md) | [日本語](deployment.ja.md) | [繁體中文](deployment.zh-Hant.md)
+
+回到 [Document Index](document-index.zh-Hant.md)
+
 這個專案是面試課題用的 demo service。給面試官重現時，推薦使用本機 Docker Compose。
 
 表記:
 
 - `<repo-root>` 代表 reviewer clone 這個 repository 的目錄。
 - `<DATA_ROOT>` 代表 repository 外部的 ML data directory。預設是 `../traffic-incident-data`，可用 `TRAFFIC_DATASETS_ROOT` 更改。
+
+## At A Glance
+
+| Item | Value |
+| --- | --- |
+| 推薦執行方式 | Docker Compose |
+| API docs | `http://127.0.0.1:8000/docs` |
+| Dashboard | `http://127.0.0.1:8000/ui/` |
+| Runtime DB | `<repo-root>/data/incidents.db` |
+| Packaged demo DB | `demo-data/incidents-demo.db` |
 
 ## 推薦 Demo 部署方式
 

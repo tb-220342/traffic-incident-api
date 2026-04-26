@@ -1,11 +1,25 @@
 # Deployment and Run Guide
 
+Language: [English](deployment.md) | [日本語](deployment.ja.md) | [繁體中文](deployment.zh-Hant.md)
+
+Back to [Document Index](document-index.md)
+
 This project is designed as an interview/demo service. The recommended deployment for review is Docker Compose on a local machine.
 
 Notation:
 
 - `<repo-root>` means the directory where the reviewer cloned this repository.
 - `<DATA_ROOT>` means an external ML data directory. The default is `../traffic-incident-data`, and it can be changed with `TRAFFIC_DATASETS_ROOT`.
+
+## At A Glance
+
+| Item | Value |
+| --- | --- |
+| Recommended run mode | Docker Compose |
+| API docs | `http://127.0.0.1:8000/docs` |
+| Dashboard | `http://127.0.0.1:8000/ui/` |
+| Runtime DB | `<repo-root>/data/incidents.db` |
+| Packaged demo DB | `demo-data/incidents-demo.db` |
 
 ## Recommended Demo Deployment
 

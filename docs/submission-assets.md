@@ -1,6 +1,13 @@
 # Public Submission Assets and Data Sources
 
+Language: [English](submission-assets.md) | [日本語](submission-assets.ja.md) | [繁體中文](submission-assets.zh-Hant.md)
+
+Back to [Document Index](document-index.md)
+
 This document explains which non-code demo artifacts are included in the repository and where their data came from.
+
+> [!NOTE]
+> The public repository includes reproducibility evidence and demo data, not raw training assets or trained weights.
 
 ## Included In The Repository
 

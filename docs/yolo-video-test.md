@@ -1,5 +1,9 @@
 # YOLO Video Test Clips
 
+Language: [English](yolo-video-test.md) | [日本語](yolo-video-test.ja.md) | [繁體中文](yolo-video-test.zh-Hant.md)
+
+Back to [Document Index](document-index.md)
+
 The local YOLO video test folder is:
 
 ```text
@@ -7,6 +11,9 @@ The local YOLO video test folder is:
 ```
 
 `<DATA_ROOT>` is the external ML data directory, defaulting to `../traffic-incident-data` unless `TRAFFIC_DATASETS_ROOT` is set.
+
+> [!NOTE]
+> The public repository documents the video test workflow and keeps verified API rows in the demo DB, but it does not redistribute dataset-derived MP4 files or YOLO weights.
 
 For public GitHub release, these dataset-derived MP4 files are not committed to the repository. Keep or regenerate them locally under `<DATA_ROOT>\yolovideotest` when you want to run the YOLO demo.
 

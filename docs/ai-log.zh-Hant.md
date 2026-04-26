@@ -2,6 +2,11 @@
 
 語言: [English](ai-log.md) | [日本語](ai-log.ja.md) | [繁體中文](ai-log.zh-Hant.md)
 
+[返回文件索引](document-index.zh-Hant.md) | [專案 README](../README.zh-Hant.md)
+
+> [!NOTE]
+> 這頁是透明性紀錄：AI 協助了什麼、實作者做了哪些判斷、面試官可以從哪裡查看原始對話來源。
+
 這份文件整理本課題開發過程中如何使用 AI 輔助。
 Claude / Gemini 對話原文已抽出到 `docs/ai-conversation-source.md`，原始 PDF 保存在 `docs/Claude_geminiconversation.md.pdf`。
 

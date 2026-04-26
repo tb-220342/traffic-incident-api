@@ -2,6 +2,11 @@
 
 Languages: [English](requirements-spec.en.md) | [日本語](requirements-spec.ja.md) | [繁體中文](requirements-spec.zh-Hant.md)
 
+[Back to Documentation Index](document-index.md) | [Project README](../README.md)
+
+> [!NOTE]
+> This is the normalized requirements reference used to validate the implementation against the assignment scope and the extended project plan.
+
 Source PDF: [requirements_spec.md.pdf](requirements_spec.md.pdf)
 
 This is an English translation of the requirements definition document prepared for the Back-End Candidate Evaluation.

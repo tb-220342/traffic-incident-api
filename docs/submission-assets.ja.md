@@ -1,6 +1,13 @@
 # Public 提出用アセットとデータ出典
 
+言語: [English](submission-assets.md) | [日本語](submission-assets.ja.md) | [繁體中文](submission-assets.zh-Hant.md)
+
+[Document Index](document-index.ja.md) に戻る
+
 この文書は、リポジトリに含めたコード以外の demo アセットと、そのデータ出典を説明するものです。
+
+> [!NOTE]
+> public repository には再現性の evidence と demo data を含めていますが、raw training asset や trained weight は含めていません。
 
 ## リポジトリに含めたもの
 

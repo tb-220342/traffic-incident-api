@@ -1,6 +1,11 @@
 # YOLO Training Pipeline
 
+[Back to main README](../README.md) | [Document Index](../docs/document-index.md)
+
 This directory turns the project from a pure back-end exercise into a training-enabled demo that can fine-tune YOLO models and feed detections back into the API.
+
+> [!NOTE]
+> The pipeline is optional for reviewers. The public repository includes scripts and training summaries, while raw datasets, videos, snapshots, and trained weights stay outside Git.
 
 ## Storage Layout
 

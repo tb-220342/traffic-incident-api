@@ -2,6 +2,11 @@
 
 語言: [English](ai-conversation-source.en.md) | [日本語](ai-conversation-source.ja.md) | [繁體中文](ai-conversation-source.zh-Hant.md)
 
+[返回文件索引](document-index.zh-Hant.md) | [AI 使用紀錄](ai-log.zh-Hant.md)
+
+> [!NOTE]
+> 這是 AI 對話證據的易讀翻譯版。為了保留可追溯性，原始抽出文字也以獨立文件保存。
+
 原始 PDF: [Claude_geminiconversation.md.pdf](Claude_geminiconversation.md.pdf)  
 Raw 抽出來源: [ai-conversation-source.md](ai-conversation-source.md)
 
