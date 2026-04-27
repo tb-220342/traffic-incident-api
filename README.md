@@ -21,6 +21,7 @@ Back-end interview project for a traffic incident monitoring platform. It ingest
 | Run the demo | `docker compose up -d --build` |
 | Open API docs | `http://127.0.0.1:8000/docs` |
 | Open dashboard | `http://127.0.0.1:8000/ui/` |
+| Review architecture decisions | [Architecture Review Notes](docs/architecture-review-notes.md) |
 | Check implementation coverage | [Implementation vs Requirements](docs/implementation-vs-requirements-v2.en.md) |
 | Read deployment guide | [Deployment](docs/deployment.md) |
 | Review all documents | [Document Index](docs/document-index.md) |
@@ -31,6 +32,7 @@ Back-end interview project for a traffic incident monitoring platform. It ingest
 | --- | --- | --- | --- |
 | Document index | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
 | Deployment guide | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
+| Architecture review notes | [EN](docs/architecture-review-notes.md) | [JA](docs/architecture-review-notes.ja.md) | [ZH](docs/architecture-review-notes.zh-Hant.md) |
 | Implementation status | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
 | Requirements specification | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
 | AI workflow log | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |

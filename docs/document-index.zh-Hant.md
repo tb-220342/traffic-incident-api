@@ -30,6 +30,9 @@
 | [deployment.md](deployment.md) | 英文部署 / 執行指南 |
 | [deployment.ja.md](deployment.ja.md) | 日文部署 / 執行指南 |
 | [deployment.zh-Hant.md](deployment.zh-Hant.md) | 繁體中文部署 / 執行指南 |
+| [architecture-review-notes.md](architecture-review-notes.md) | 對應面試評價點的架構設計判斷 |
+| [architecture-review-notes.ja.md](architecture-review-notes.ja.md) | 日文架構審查備忘 |
+| [architecture-review-notes.zh-Hant.md](architecture-review-notes.zh-Hant.md) | 繁體中文架構審查備忘 |
 | [requirements-spec.en.md](requirements-spec.en.md) | 英文要件定義書 |
 | [requirements-spec.ja.md](requirements-spec.ja.md) | 日文要件定義書 |
 | [requirements-spec.zh-Hant.md](requirements-spec.zh-Hant.md) | 繁體中文要件定義書 |

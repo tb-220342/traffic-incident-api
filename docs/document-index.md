@@ -30,6 +30,9 @@ Use this page as the navigation map for the submission. If the README is the lob
 | [deployment.md](deployment.md) | Docker Compose, local Python, DB persistence, and YOLO write-to-API verification |
 | [deployment.ja.md](deployment.ja.md) | Japanese deployment guide |
 | [deployment.zh-Hant.md](deployment.zh-Hant.md) | Traditional Chinese deployment guide |
+| [architecture-review-notes.md](architecture-review-notes.md) | Architecture decisions mapped to interview evaluation points |
+| [architecture-review-notes.ja.md](architecture-review-notes.ja.md) | Japanese architecture review notes |
+| [architecture-review-notes.zh-Hant.md](architecture-review-notes.zh-Hant.md) | Traditional Chinese architecture review notes |
 | [requirements-spec.en.md](requirements-spec.en.md) | Requirements specification in English |
 | [requirements-spec.ja.md](requirements-spec.ja.md) | Requirements specification in Japanese |
 | [requirements-spec.zh-Hant.md](requirements-spec.zh-Hant.md) | Requirements specification in Traditional Chinese |

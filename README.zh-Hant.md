@@ -21,6 +21,7 @@
 | 啟動示範 | `docker compose up -d --build` |
 | API 文件 | `http://127.0.0.1:8000/docs` |
 | 儀表板 | `http://127.0.0.1:8000/ui/` |
+| 查看設計判斷 | [架構審查備忘](docs/architecture-review-notes.zh-Hant.md) |
 | 查看完成度 | [目前實作 vs 要件](docs/implementation-vs-requirements-v2.md) |
 | 查看部署方式 | [部署 / 執行指南](docs/deployment.zh-Hant.md) |
 | 查看所有文檔 | [文檔索引](docs/document-index.zh-Hant.md) |
@@ -31,6 +32,7 @@
 | --- | --- | --- | --- |
 | 文檔索引 | [EN](docs/document-index.md) | [JA](docs/document-index.ja.md) | [ZH](docs/document-index.zh-Hant.md) |
 | 部署 / 執行指南 | [EN](docs/deployment.md) | [JA](docs/deployment.ja.md) | [ZH](docs/deployment.zh-Hant.md) |
+| 架構審查備忘 | [EN](docs/architecture-review-notes.md) | [JA](docs/architecture-review-notes.ja.md) | [ZH](docs/architecture-review-notes.zh-Hant.md) |
 | 實作完成度 | [EN](docs/implementation-vs-requirements-v2.en.md) | [JA](docs/implementation-vs-requirements-v2.ja.md) | [ZH](docs/implementation-vs-requirements-v2.md) |
 | 要件定義書 | [EN](docs/requirements-spec.en.md) | [JA](docs/requirements-spec.ja.md) | [ZH](docs/requirements-spec.zh-Hant.md) |
 | AI 使用紀錄 | [EN](docs/ai-log.md) | [JA](docs/ai-log.ja.md) | [ZH](docs/ai-log.zh-Hant.md) |

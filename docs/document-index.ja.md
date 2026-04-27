@@ -30,6 +30,9 @@
 | [deployment.md](deployment.md) | Docker Compose、ローカル Python、DB 永続化、YOLO から API への書き込み確認 |
 | [deployment.ja.md](deployment.ja.md) | 日本語デプロイ / 実行ガイド |
 | [deployment.zh-Hant.md](deployment.zh-Hant.md) | 繁體中文デプロイ / 実行ガイド |
+| [architecture-review-notes.md](architecture-review-notes.md) | interview 評価点に対応した architecture decision |
+| [architecture-review-notes.ja.md](architecture-review-notes.ja.md) | 日本語アーキテクチャレビュー用メモ |
+| [architecture-review-notes.zh-Hant.md](architecture-review-notes.zh-Hant.md) | 繁體中文アーキテクチャレビュー用メモ |
 | [requirements-spec.en.md](requirements-spec.en.md) | English の要件定義書 |
 | [requirements-spec.ja.md](requirements-spec.ja.md) | 日本語の要件定義書 |
 | [requirements-spec.zh-Hant.md](requirements-spec.zh-Hant.md) | 繁體中文の要件定義書 |
