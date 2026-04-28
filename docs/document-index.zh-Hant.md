@@ -40,6 +40,9 @@
 | [implementation-vs-requirements-v2.en.md](implementation-vs-requirements-v2.en.md) | 英文完成度清單 |
 | [implementation-vs-requirements-v2.ja.md](implementation-vs-requirements-v2.ja.md) | 日文完成度清單 |
 | [implementation-vs-requirements-v2.md](implementation-vs-requirements-v2.md) | 繁體中文完成度清單 |
+| [vscode-usage-guide.zh-Hant.md](vscode-usage-guide.zh-Hant.md) | VSCode 詳細使用說明 |
+| [detailed-requirements-v3.zh-Hant.md](detailed-requirements-v3.zh-Hant.md) | 對齊目前實作的詳細要件定義書 v3 |
+| [interview-script.zh-Hant.md](interview-script.zh-Hant.md) | 面試用講稿，包含日文稿與中文提示 |
 
 ## AI 使用紀錄
 

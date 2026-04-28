@@ -40,6 +40,9 @@ Use this page as the navigation map for the submission. If the README is the lob
 | [implementation-vs-requirements-v2.en.md](implementation-vs-requirements-v2.en.md) | Implementation completion checklist in English |
 | [implementation-vs-requirements-v2.ja.md](implementation-vs-requirements-v2.ja.md) | Implementation completion checklist in Japanese |
 | [implementation-vs-requirements-v2.md](implementation-vs-requirements-v2.md) | Implementation completion checklist in Traditional Chinese |
+| [vscode-usage-guide.zh-Hant.md](vscode-usage-guide.zh-Hant.md) | Traditional Chinese VSCode usage guide |
+| [detailed-requirements-v3.zh-Hant.md](detailed-requirements-v3.zh-Hant.md) | Current implementation-aligned detailed requirements in Traditional Chinese |
+| [interview-script.zh-Hant.md](interview-script.zh-Hant.md) | Interview speaking script with Japanese script and Chinese notes |
 
 ## AI Usage Records
 

@@ -43,6 +43,14 @@
 
 原始來源：[要件 PDF](docs/requirements_spec.md.pdf)、[AI 對話 PDF](docs/Claude_geminiconversation.md.pdf)、[AI 對話 raw 抽出 Markdown](docs/ai-conversation-source.md)。
 
+## 面試準備文件
+
+| 文件 | 用途 |
+| --- | --- |
+| [VSCode 詳細使用說明](docs/vscode-usage-guide.zh-Hant.md) | 從 VSCode 啟動、debug、測 API、查 DB、跑 YOLO demo。 |
+| [詳細要件定義書 v3](docs/detailed-requirements-v3.zh-Hant.md) | 對齊目前實作的詳細需求、API、資料模型與驗收條件。 |
+| [面試用講稿](docs/interview-script.zh-Hant.md) | 日文可直接講的稿子，加上中文提示與常見問答。 |
+
 ## 包含內容
 
 | 領域 | 內容 |

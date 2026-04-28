@@ -40,6 +40,9 @@
 | [implementation-vs-requirements-v2.en.md](implementation-vs-requirements-v2.en.md) | English の完成度チェックリスト |
 | [implementation-vs-requirements-v2.ja.md](implementation-vs-requirements-v2.ja.md) | 日本語の完成度チェックリスト |
 | [implementation-vs-requirements-v2.md](implementation-vs-requirements-v2.md) | 繁體中文の完成度チェックリスト |
+| [vscode-usage-guide.zh-Hant.md](vscode-usage-guide.zh-Hant.md) | 繁體中文の VSCode 詳細使用ガイド |
+| [detailed-requirements-v3.zh-Hant.md](detailed-requirements-v3.zh-Hant.md) | 現在の実装に合わせた繁體中文の詳細要件定義書 |
+| [interview-script.zh-Hant.md](interview-script.zh-Hant.md) | 日本語発話稿と中文メモを含む面接用 script |
 
 ## AI 利用記録
 
